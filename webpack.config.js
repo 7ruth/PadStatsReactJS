@@ -14,7 +14,7 @@ const path    = require('path'),
 
 const root  = resolve(__dirname);
 const src   = join(root, 'src');
-const examples = join(root, 'examples');
+const app = join(root, 'app');
 const modules = join(root, 'node_modules');
 const dest  = join(root, 'public');
 
@@ -22,7 +22,7 @@ const getConfig = require('hjs-webpack')
 
 var config = getConfig({
   isDev,
-  in: join(examples, 'index.js'),
+  in: join(app, 'index.js'),
   out: dest,
   clearBeforeBuild: true,
   html: function(context, cb) {
@@ -79,14 +79,14 @@ const findLoader = (loaders, match, fn) => {
 const cssloader = findLoader(config.module.loaders, matchCssLoaders);
 const newloader = Object.assign({}, cssloader, {
   test: /\.module\.css$/,
-  include: [src, examples],
+  include: [src, app],
   loader: cssloader.loader.replace(matchCssLoaders, `$1$2?modules&localIdentName=${cssModulesNames}$3`)
 })
 config.module.loaders.push(newloader);
 cssloader.test = new RegExp(`[^module]${cssloader.test.source}`)
 cssloader.loader = 'style!css!postcss'
 
-cssloader.include = [src, examples];
+cssloader.include = [src, app];
 
 config.module.loaders.push({
   test: /\.css$/,

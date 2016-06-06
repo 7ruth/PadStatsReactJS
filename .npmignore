@@ -8,6 +8,6 @@
 .eslintrc
 npm-debug.log
 src/
-examples/
+app/
 public/
 scripts/

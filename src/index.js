@@ -20,7 +20,9 @@ const mapStyles = {
 }
 
 const evtNames = ['ready', 'click', 'dragend', 'recenter'];
-const directionsRendererArray = [];
+var pastCounters;
+var counter = 0;
+var directionsRendererArray = [];
 
 export {wrapper as GoogleApiWrapper} from './GoogleApiComponent'
 export {Marker} from './components/Marker'
@@ -84,7 +86,9 @@ export class Map extends React.Component {
       if (this.props.directions !== prevProps.directions) {
         this.setState({
           currentDirections: this.props.directions,
-          currentDirectionsCategory: this.props.directionsCategory
+          currentCounters: this.props.counters,
+          currentCategory: this.props.category,
+          initialCategories: this.props.initialCategories
         })
       }
       if (prevState.currentDirections !== this.state.currentDirections) {
@@ -170,28 +174,44 @@ export class Map extends React.Component {
       const {google} = this.props;
       const maps = google.maps;
 
-      console.log(this.state.currentDirections);
-      console.log(this.state.currentDirectionsCategory);
-      console.log(userSelection);
+      console.log(this.state.initialCategories);
+      console.log(this.state.currentCategory);
+      console.log(this.state.currentCounters);
 
-      var directionsRenderer = new google.maps.DirectionsRenderer({
-        suppressMarkers: true,
-        draggable: true,
-        map: map,
-        polylineOptions: new google.maps.Polyline({strokeColor: rainbow(Math.round(Math.random() * 100),Math.round(Math.random() * 9)),
-        })});
+      if (!this.state.currentCategory && counter<this.state.initialCategories.length) {
 
-      directionsRendererArray.push(directionsRenderer);
+        // if this is an initial load on a new address (due to counter being 0) (but not an initial load of the site (directionsRendererArray is filled)), clean routes
+        if(counter === 0 && directionsRendererArray) {
+          for(var i=0; i<Object.keys(directionsRendererArray).length; i++) {
+            directionsRendererArray[Object.keys(directionsRendererArray)[i]].setMap(null);
+          }
+        }
 
-      console.log("*click*")
-      console.log(directionsRenderer);
+        var directionsRenderer = new google.maps.DirectionsRenderer({
+          suppressMarkers: true,
+          draggable: true,
+          map: map,
+          polylineOptions: new google.maps.Polyline({strokeColor: rainbow(Math.round(Math.random() * 100),Math.round(Math.random() * 9)),
+          })});
 
-      //pass renderer to map
-      directionsRenderer.setMap(map);
-      //pass options with results, start and end to the renderer on the map
-      directionsRenderer.setDirections(this.state.currentDirections);
-      map.setZoom(14);
+        directionsRendererArray[this.state.initialCategories[counter]]=directionsRenderer;
+        directionsRendererArray[this.state.initialCategories[counter]].setMap(map);
+        directionsRendererArray[this.state.initialCategories[counter]].setDirections(this.state.currentDirections);
 
+        counter += 1
+        if (counter === this.state.initialCategories.length){
+          counter = 0
+        }
+
+      } else {
+        //clear previous renderer
+        directionsRendererArray[this.state.currentCategory].setMap(null);
+        //pass renderer to map
+        directionsRendererArray[this.state.currentCategory].setMap(map);
+        //pass options with results, start and end to the renderer on the map
+        directionsRendererArray[this.state.currentCategory].setDirections(this.state.currentDirections);
+      }
+      //Coloring function for routes
       function rainbow(numOfSteps, step) {
       // This function generates vibrant, "evenly spaced" colours (i.e. no clustering). This is ideal for creating easily distinguishable vibrant markers in Google Maps and other apps.
       // Adam Cole, 2011-Sept-14
@@ -212,6 +232,8 @@ export class Map extends React.Component {
         var c = "#" + ("00" + (~ ~(r * 255)).toString(16)).slice(-2) + ("00" + (~ ~(g * 255)).toString(16)).slice(-2) + ("00" + (~ ~(b * 255)).toString(16)).slice(-2);
         return (c);
         }
+        pastCounters = this.state.currentCounters
+
       }
 
     restyleMap() {

@@ -89,7 +89,6 @@ const SidePanel=React.createClass({
     for (var i=0; i<this.props.userSelectionWords.length; i++)
       {
         ///
-
         poiRender.push(
           <div id={this.props.userSelectionWords[i]} key={i} className={styles.poiCategory} ref={this.props.userSelection[i]} >
             <div className={styles.categoryContainer}>{this.props.userSelectionWords[i]}</div>

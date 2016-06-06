@@ -22,6 +22,7 @@ const MainMap = React.createClass({
   },
   ///////////////////////////////////////////////////////
   render: function() {
+
     const props = this.props;
     if (this.props.position){
       var sidepanel =
@@ -51,6 +52,8 @@ const MainMap = React.createClass({
               directions={this.props.directions}
               userSelection = {this.props.userSelection}
               counters = {this.props.counters}
+              category = {this.props.category}
+              initialCategories = {this.props.initialCategories}
               centerAroundCurrentLocation={false}>
                 <Marker position={this.props.position} />
           </Map>

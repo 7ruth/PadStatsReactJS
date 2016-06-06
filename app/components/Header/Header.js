@@ -28,6 +28,7 @@ var placeTypesKey = {
 var userSelection = [placesTypes[0],placesTypes[1],placesTypes[2]];
 var userSelectionWords = [placeTypesKey[placesTypes[0]],placeTypesKey[placesTypes[1]],placeTypesKey[placesTypes[2]]];
 var counters = {};
+var prevCounters = {};
 
 const Header=React.createClass({
   ///////////////////////////////////////////////////////
@@ -54,6 +55,21 @@ const Header=React.createClass({
     if (map !== prevProps.map) {
       this.renderAutoComplete();
     }
+  },
+  ///////////////////////////////////////////////////////
+  mapOptionsChanged: function(newSelection) {
+    userSelection=[];
+    userSelectionWords=[];
+    userSelection=newSelection;
+    for (var i=0; i<userSelection.length; i++){
+      userSelectionWords.push(placeTypesKey[userSelection[i]])
+    }
+    this.setState({
+      userSelection: userSelection,
+      userSelectionWords: userSelectionWords
+    });
+    ///! Implement a way to update routes on checkbox changes... should deal with it here.
+    ///! Also a good place to add counters here... and set counters state here also to make sure everything flows
   },
   ///////////////////////////////////////////////////////
   renderAutoComplete: function() {
@@ -83,7 +99,6 @@ const Header=React.createClass({
         position: place.geometry.location
       })
 
-      var places = [];
       var poiObject ={};
 
       for (var i=0; i<placesTypes.length; i++){
@@ -95,64 +110,69 @@ const Header=React.createClass({
         searchNearby(google, map, opts)
           .then((results, pagination) => {
             poiObject[opts.types] = results
+            //
             if (Object.keys(poiObject).length == placesTypes.length){
+              //
               this.setState({
-                places: places[0],
                 poiObject: poiObject,
                 placesTypes: placesTypes,
                 pagination
               })
-            }
-            for (var i=0; i<userSelection.length; i++){
-              if (!counters[userSelection[i]]){
-              counters[userSelection[i]]=0
+              //
+              var initialCategories=[];
+              for (var i=0; i<userSelection.length; i++){
+                if (!counters[userSelection[i]]){
+                counters[userSelection[i]]=0
+                }
+                initialCategories.push(userSelection[i])
               }
+              //
+              this.setState({
+                counters: counters,
+                initialCategories: initialCategories,
+                category: null
+              })
+              //
+              for (var i=0; i<userSelection.length; i++){
+                this.setDirections(Object.keys(counters)[i]);
+              }
+              prevCounters = counters;
             }
-            this.setDirections(counters);
         })
       }
     })
   },
   ///////////////////////////////////////////////////////
-  mapOptionsChanged: function(newSelection) {
-    userSelection=[];
-    userSelectionWords=[];
-    userSelection=newSelection;
-    for (var i=0; i<userSelection.length; i++){
-      userSelectionWords.push(placeTypesKey[userSelection[i]])
+  onClick: function(counters) {
+    // figure out which counters category changed
+    for(var i=0; i<Object.keys(counters).length; i++){
+      if(counters[Object.keys(counters)[i]] !== prevCounters[Object.keys(counters)[i]]){
+      var category = Object.keys(counters)[i]
+      }
     }
+    //
     this.setState({
-      userSelection: userSelection,
-      userSelectionWords: userSelectionWords
-    });
+      counters: counters,
+      category: category
+    })
+    //
+    this.setDirections(category);
   },
   ///////////////////////////////////////////////////////
-  setDirections: function(counters) {
+  setDirections: function(category) {
     const {google, map} = this.props;
-    console.log(Object.keys(counters).length);
 
-    for (var i = 0;i<Object.keys(counters).length;i++){
       const request = {
         origin: this.state.position,
-        destination: this.state.poiObject[Object.keys(counters)[i]][counters[Object.keys(counters)[i]]]['geometry']['location'],
+        destination: this.state.poiObject[category][this.state.counters[category]]['geometry']['location'],
         travelMode: google.maps.DirectionsTravelMode.DRIVING
       }
-      lookupDirections(google, map, request)
-        .then((results, pagination) => {
+      lookupDirections(google, map, request, category)
+        .then((results, pagination, category) => {
           this.setState({
-            directions: results,
+            directions: results
           })
         });
-    }
-  },
-  ///////////////////////////////////////////////////////
-  onClick: function(counters) {
-    console.log(counters);
-    this.setState({
-      counters: counters
-    })
-
-    this.setDirections(this.state.counters);
   },
   ///////////////////////////////////////////////////////
   render: function() {
@@ -214,12 +234,14 @@ const Header=React.createClass({
         <div>
           <MainMap {...props}
             directions = {this.state.directions}
+            counters = {this.state.counters}
+            category = {this.state.category}
+            initialCategories = {this.state.initialCategories}
             position= {this.state.position}
             poiObject = {this.state.poiObject}
             placesTypes = {this.state.placesTypes}
             userSelection= {this.state.userSelection}
             userSelectionWords = {this.state.userSelectionWords}
-            directionsCategory = {this.state.directionsCategory}
             onClick = {this.onClick} />
         </div>
       </div>
