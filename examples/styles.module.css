@@ -1,0 +1,31 @@
+$dominantColor: #1BCAFF;
+$listColor: #333;
+$textColor: #333;
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300);
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: lighter;
+
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  min-height: 100vh;
+
+  .content {
+    top: 80px;
+    flex: 3;
+    order: 2;
+    position: relative;
+    min-height: 100vh;
+  }
+}
