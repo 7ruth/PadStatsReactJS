@@ -23,6 +23,10 @@ const evtNames = ['ready', 'click', 'dragend', 'recenter'];
 var pastCounters;
 var counter = 0;
 var directionsRendererArray = [];
+var infowindow;
+var markerObject={};
+var infoWindowObject={};
+var distances = {};
 
 export {wrapper as GoogleApiWrapper} from './GoogleApiComponent'
 export {Marker} from './components/Marker'
@@ -85,8 +89,10 @@ export class Map extends React.Component {
       //if directions opts (results, start, end) change, set new directions to Maps new state
       if (this.props.directions !== prevProps.directions) {
         this.setState({
-          currentDirections: this.props.directions,
+          currentLocation: this.props.center,
           currentCounters: this.props.counters,
+          currentPoiObject: this.props.poiObject,
+          currentDirections: this.props.directions,
           currentCategory: this.props.category,
           initialCategories: this.props.initialCategories
         })
@@ -174,6 +180,7 @@ export class Map extends React.Component {
       const {google} = this.props;
       const maps = google.maps;
 
+      console.log(this.state.currentLocation);
       console.log(this.state.initialCategories);
       console.log(this.state.currentCategory);
       console.log(this.state.currentCounters);
@@ -197,12 +204,26 @@ export class Map extends React.Component {
         directionsRendererArray[this.state.initialCategories[counter]]=directionsRenderer;
         directionsRendererArray[this.state.initialCategories[counter]].setMap(map);
         directionsRendererArray[this.state.initialCategories[counter]].setDirections(this.state.currentDirections);
-
+        //use counter and Counters to select the poi object thats being routed
+        var routedPoi = this.state.currentPoiObject[this.state.initialCategories[counter]][this.state.currentCounters[this.state.initialCategories[counter]]]
+        // create a marker for current POI and category
+        this.createMarker(routedPoi, this.state.initialCategories[counter]);
+        //calc distance and time to the POI from the center address
+        var origin_lat = this.state.currentLocation.lat();
+        var origin_lng = this.state.currentLocation.lng();
+        var latitude = routedPoi.geometry.location.lat();
+        var longitude = routedPoi.geometry.location.lng();
+        distances[this.state.initialCategories[counter]] = this.calcDistance(origin_lat,origin_lng,latitude,longitude);
+        //calc travel time to the POI
+        distances[this.state.initialCategories[counter]+"TravelTime"]= this.computetime(directionsRendererArray[this.state.initialCategories[counter]].directions)
+        //export distances object to MainMap component for rendering on the SidePanel component
+        this.props.exportObject(distances)
+        /////////////////////////////////////////////////////////////////
         counter += 1
         if (counter === this.state.initialCategories.length){
           counter = 0
         }
-
+        // On clicks of +/- arrows next to each category
       } else {
         //clear previous renderer
         directionsRendererArray[this.state.currentCategory].setMap(null);
@@ -210,6 +231,19 @@ export class Map extends React.Component {
         directionsRendererArray[this.state.currentCategory].setMap(map);
         //pass options with results, start and end to the renderer on the map
         directionsRendererArray[this.state.currentCategory].setDirections(this.state.currentDirections);
+        //set marker and info window
+        routedPoi = this.state.currentPoiObject[this.state.currentCategory][this.state.currentCounters[this.state.currentCategory]]
+        this.createMarker(routedPoi, this.state.currentCategory);
+        //calc distance and time to the POI from the center address
+        var origin_lat = this.state.currentLocation.lat();
+        var origin_lng = this.state.currentLocation.lng();
+        var latitude = routedPoi.geometry.location.lat();
+        var longitude = routedPoi.geometry.location.lng();
+        distances[this.state.currentCategory] = this.calcDistance(origin_lat,origin_lng,latitude,longitude);
+        //calc travel time to the POI
+        distances[this.state.currentCategory+"TravelTime"]= this.computetime(directionsRendererArray[this.state.currentCategory].directions)
+        //export distances object to MainMap component for rendering on the SidePanel component
+        this.props.exportObject(distances)
       }
       //Coloring function for routes
       function rainbow(numOfSteps, step) {
@@ -218,10 +252,10 @@ export class Map extends React.Component {
       // HSV to RBG adapted from: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
         var r, g, b;
         var h = step / numOfSteps;
-        var i = ~~(h * 6);
-        var f = h * 6 - i;
+        var i = ~~(h * 10);
+        var f = h * 10 - i;
         var q = 1 - f;
-        switch(i % 6){
+        switch(i % 10){
             case 0: r = 1, g = f, b = 0; break;
             case 1: r = q, g = 1, b = 0; break;
             case 2: r = 0, g = 1, b = f; break;
@@ -255,6 +289,53 @@ export class Map extends React.Component {
           mapCenter: this.state.currentLocation
         });
       })
+    }
+
+    createMarker(place, category) {
+    const map = this.map;
+    const {google} = this.props;
+    const maps = google.maps;
+
+    if (place === "undefined" || place === undefined){
+      return;
+    } else {
+      // Marker settings
+      var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location,
+        visible: false
+        });
+      //
+      if(markerObject[category]){
+        markerObject[category].setMap(null);
+      }
+      //
+      markerObject[category]=marker;
+      // Info Window Settings
+      infowindow = new google.maps.InfoWindow();
+      infoWindowObject[category]=infowindow;
+      infoWindowObject[category].setContent(place.name);
+      infoWindowObject[category].open(map, markerObject[category]);
+      }
+    }
+
+    calcDistance (fromLat, fromLng, toLat, toLng) {
+      return google.maps.geometry.spherical.computeDistanceBetween(
+        new google.maps.LatLng(fromLat, fromLng), new google.maps.LatLng(toLat, toLng));
+    }
+
+    computetime(result) {
+      var time=0;
+      var mytravelroute=result.routes[0];
+      for (var i = 0; i < mytravelroute.legs.length; i++) {
+        time += mytravelroute.legs[i].duration.value;
+      }
+      var totalSec = time;
+      var hours = parseInt( totalSec / 3600 );
+      var minutes = parseInt( totalSec / 60 ) % 60;
+      var seconds = totalSec % 60;
+      var result = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
+      return result
     }
 
     render() {

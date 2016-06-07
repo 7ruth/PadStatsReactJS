@@ -48,7 +48,7 @@
     }
   }
 
-  p {
+  section {
     flex:4;
     order:4;
     margin: 0 40px 0 40px;
@@ -56,4 +56,12 @@
     font-size: 15px;
   }
 
+  p{
+    margin:0;
+  }
+
+}
+
+.totalTime {
+  margin:10px;
 }

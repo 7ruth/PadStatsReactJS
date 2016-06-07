@@ -1,13 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-import Map, {Marker, GoogleApiWrapper} from '../../../src/index'
+///////////////////////////////////////////////////////
+import Map, {Marker, InfoWindow, GoogleApiWrapper} from '../../../src/index'
 import {Link} from 'react-router'
 import styles from './styles.module.css';
 import {searchNearby} from '../../../src/lib/placeshelper.js'
 import SidePanel from '../../components/SidePanel/SidePanel'
-
-
+///////////////////////////////////////////////////////
 const MainMap = React.createClass({
   ///////////////////////////////////////////////////////
   getInitialState() {
@@ -16,13 +15,19 @@ const MainMap = React.createClass({
       position: null
     }
   },
-  ///////////////////////////////////////////////////////
+  //Gets the +/- click commands data on each category from the SidePanel component to the Header component
   onClick: function(counters) {
     this.props.onClick(counters)
   },
+  //Gets the distance and time travelled to each destination exported from Map component
+  exportObject: function(object){
+    this.setState({
+      distancesObject: object
+    })
+  this.sidePanelComponent.poiManagerReRender();
+  },
   ///////////////////////////////////////////////////////
   render: function() {
-
     const props = this.props;
     if (this.props.position){
       var sidepanel =
@@ -32,12 +37,14 @@ const MainMap = React.createClass({
             placesTypes = {this.props.placesTypes}
             userSelection = {this.props.userSelection}
             userSelectionWords = {this.props.userSelectionWords}
+            distancesObject = {this.state.distancesObject}
+            ref={(sidePanelComponent) => this.sidePanelComponent = sidePanelComponent}
             onClick = {this.onClick}/>
         </div>;
       } else {
         var sidepanel = <div></div>;
       }
-
+    ///////////////////////////////////////////////////////
     return (
       <div className={styles.flexWrapper}>
         {sidepanel}
@@ -54,8 +61,12 @@ const MainMap = React.createClass({
               counters = {this.props.counters}
               category = {this.props.category}
               initialCategories = {this.props.initialCategories}
+              poiObject = {this.props.poiObject}
+              exportObject = {this.exportObject}
               centerAroundCurrentLocation={false}>
-                <Marker position={this.props.position} />
+                <Marker
+                  onClick={this.onMarkerClick}
+                  position={this.props.position} />
           </Map>
         </div>
       </div>

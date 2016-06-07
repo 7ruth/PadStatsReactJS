@@ -6,7 +6,7 @@ import {Link} from 'react-router'
 import {searchNearby} from '../../../src/lib/placeshelper.js'
 import {lookupDirections} from '../../../src/lib/directionshelper.js'
 import CheckboxGroup from 'react-checkbox-group';
-
+///////////////////////////////////////////////////////
 var placesTypes = [
   'convenience_store',
   'gym',
@@ -15,7 +15,7 @@ var placesTypes = [
   'library',
   'museum'
 ];
-
+///////////////////////////////////////////////////////
 var placeTypesKey = {
   'convenience_store':'Convenience Store',
   'gym':'Gym',
@@ -24,12 +24,12 @@ var placeTypesKey = {
   'library':'Library',
   'museum':'Museum'
 }
-
+///////////////////////////////////////////////////////
 var userSelection = [placesTypes[0],placesTypes[1],placesTypes[2]];
 var userSelectionWords = [placeTypesKey[placesTypes[0]],placeTypesKey[placesTypes[1]],placeTypesKey[placesTypes[2]]];
 var counters = {};
 var prevCounters = {};
-
+///////////////////////////////////////////////////////
 const Header=React.createClass({
   ///////////////////////////////////////////////////////
   getInitialState() {
@@ -74,51 +74,49 @@ const Header=React.createClass({
   ///////////////////////////////////////////////////////
   renderAutoComplete: function() {
     const {google, map} = this.props;
-
     if (!google || !map) return;
-
     const aref = this.refs.autocomplete;
     const node = ReactDOM.findDOMNode(aref);
     var autocomplete = new google.maps.places.Autocomplete(node);
     autocomplete.bindTo('bounds', map);
-
+    ///////////////////////////////////////////////////////
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
       if (!place.geometry) {
         return;
       }
-
       if (place.geometry.viewport) {
         map.fitBounds(place.geometry.viewport);
       } else {
         map.setCenter(place.geometry.location);
       }
-
+      ///////////////////////////////////////////////////////
       this.setState({
         place: place,
         position: place.geometry.location
       })
-
+      ///////////////////////////////////////////////////////
       var poiObject ={};
-
+      ///////////////////////////////////////////////////////
       for (var i=0; i<placesTypes.length; i++){
         const opts = {
           location: map.center,
-          radius: '10000',
+          radius: '1000',
           types: [placesTypes[i]]
         }
+        ///////////////////////////////////////////////////////
         searchNearby(google, map, opts)
           .then((results, pagination) => {
             poiObject[opts.types] = results
-            //
+            ///////////////////////////////////////////////////////
             if (Object.keys(poiObject).length == placesTypes.length){
-              //
+              ///////////////////////////////////////////////////////
               this.setState({
                 poiObject: poiObject,
                 placesTypes: placesTypes,
                 pagination
               })
-              //
+              ///////////////////////////////////////////////////////
               var initialCategories=[];
               for (var i=0; i<userSelection.length; i++){
                 if (!counters[userSelection[i]]){
@@ -126,13 +124,13 @@ const Header=React.createClass({
                 }
                 initialCategories.push(userSelection[i])
               }
-              //
+              ///////////////////////////////////////////////////////
               this.setState({
                 counters: counters,
                 initialCategories: initialCategories,
                 category: null
               })
-              //
+              ///////////////////////////////////////////////////////
               for (var i=0; i<userSelection.length; i++){
                 this.setDirections(Object.keys(counters)[i]);
               }
@@ -150,23 +148,22 @@ const Header=React.createClass({
       var category = Object.keys(counters)[i]
       }
     }
-    //
+    ///////////////////////////////////////////////////////
     this.setState({
       counters: counters,
       category: category
     })
-    //
+    ///////////////////////////////////////////////////////
     this.setDirections(category);
   },
   ///////////////////////////////////////////////////////
   setDirections: function(category) {
     const {google, map} = this.props;
-
-      const request = {
-        origin: this.state.position,
-        destination: this.state.poiObject[category][this.state.counters[category]]['geometry']['location'],
-        travelMode: google.maps.DirectionsTravelMode.DRIVING
-      }
+    const request = {
+      origin: this.state.position,
+      destination: this.state.poiObject[category][this.state.counters[category]]['geometry']['location'],
+      travelMode: google.maps.DirectionsTravelMode.DRIVING
+    }
       lookupDirections(google, map, request, category)
         .then((results, pagination, category) => {
           this.setState({
@@ -178,7 +175,6 @@ const Header=React.createClass({
   render: function() {
     const props = this.props;
     const {position} = this.state;
-
     return (
       <div>
         <div className={styles.topbar}>

@@ -39,7 +39,7 @@ export class InfoWindow extends React.Component {
     }
 
     const iw = this.infowindow = new google.maps.InfoWindow({
-      content: ''
+      content: 'Hiii'
     });
 
     google.maps.event
