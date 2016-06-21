@@ -372,10 +372,10 @@ Map.propTypes = {
 evtNames.forEach(e => Map.propTypes[camelize(e)] = T.func)
 
 Map.defaultProps = {
-  zoom: 14,
+  zoom: 9,
   initialCenter: {
-    lat: 37.774929,
-    lng: -122.419416
+    lat: 51.380492,
+    lng: -68.697407
   },
   center: {},
   centerAroundCurrentLocation: false,
