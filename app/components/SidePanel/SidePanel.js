@@ -103,8 +103,6 @@ const SidePanel=React.createClass({
     }
     //append new section
     node.appendChild(section)
-
-
   },
   ///////////////////////////////////////////////////////
   renderTime: function() {

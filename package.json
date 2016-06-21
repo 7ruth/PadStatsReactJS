@@ -21,9 +21,7 @@
     "lintfix": "eslint ./src --fix",
     "testonly": "NODE_ENV=test mocha $npm_package_options_mocha",
     "test": "npm run lint && npm run testonly",
-    "test-watch": "npm run testonly -- --watch --watch-extensions js",
-    "dev2": "nodemon ./app/Server/Server.js"
-
+    "test-watch": "npm run testonly -- --watch --watch-extensions js"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",
@@ -73,8 +71,10 @@
     "react-dom": "~0.14.8 || ^15.0.0"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "flux": "^2.1.1",
-    "invariant": "^2.2.1"
+    "invariant": "^2.2.1",
+    "mongodb": "^2.1.18"
   }
 }

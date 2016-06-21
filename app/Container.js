@@ -39,7 +39,7 @@ export const Container = React.createClass({
           <Map google={google}
               className={'map'}
               visible={false}>
-          <Header />
+            <Header />
           </Map>
           </div>
         </div>
