@@ -180,11 +180,6 @@ export class Map extends React.Component {
       const {google} = this.props;
       const maps = google.maps;
 
-      console.log(this.state.currentLocation);
-      console.log(this.state.initialCategories);
-      console.log(this.state.currentCategory);
-      console.log(this.state.currentCounters);
-
       if (!this.state.currentCategory && counter<this.state.initialCategories.length) {
 
         // if this is an initial load on a new address (due to counter being 0) (but not an initial load of the site (directionsRendererArray is filled)), clean routes

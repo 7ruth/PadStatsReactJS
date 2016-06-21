@@ -46,7 +46,6 @@ const SidePanel=React.createClass({
   },
   ///////////////////////////////////////////////////////
   poiManager: function(i) {
-    console.log(this.props.distancesObject);
     //manages user controlled scrolling of POI data under each category (which are controlled by the checkbox)
     const aref = this.refs[[i]];
     const node = ReactDOM.findDOMNode(aref);
