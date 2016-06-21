@@ -33,6 +33,7 @@ const MainMap = React.createClass({
       var sidepanel =
         <div className={styles.left}>
           <SidePanel {...props}
+            position = {this.props.position}
             poiObject = {this.props.poiObject}
             placesTypes = {this.props.placesTypes}
             userSelection = {this.props.userSelection}

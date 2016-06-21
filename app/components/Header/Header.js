@@ -182,15 +182,11 @@ const Header=React.createClass({
 
           <section>
             <div className={styles.searchbox}>
-              <form onSubmit={this.onSubmit}>
+              <form action="/quotes" method="POST" onSubmit={this.onSubmit}>
                 <input
                     ref='autocomplete'
                     type="text"
                     placeholder="Enter a location" />
-                <input
-                    className={styles.button}
-                    type='submit'
-                    value='Go' />
               </form>
             </div>
             <div className={styles.checkboxdiv}>

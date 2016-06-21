@@ -107,6 +107,19 @@ const SidePanel=React.createClass({
   renderTime: function() {
     this.props.renderTime()
   },
+  //do a POST request////////////////////////////////////
+  requestPOST: function() {
+    var url = "/quotes";
+    var data = JSON.stringify({
+      location:this.props.position,
+      totalTime: formattedTime
+    })
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    //Set header, make sure has application/json, for JSON format, also must JSON.stringify the data before sending
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.send(data);
+  },
   ///////////////////////////////////////////////////////
   render: function() {
     var poiRender=[];
@@ -162,9 +175,16 @@ const SidePanel=React.createClass({
       if(cumulativeTime === 0){
         totalTime.push(<div></div>)
       } else {
-        totalTime.push(<div className={styles.totalTime}>Total Travel Time: {formattedTime}</div>)
-      }
-
+        totalTime.push(
+          <div className={styles.totalTime}>
+            <div>
+              Total Travel Time: {formattedTime}
+            </div>
+            <div>
+              <button onClick={this.requestPOST}>Save Results!</button>
+            </div>
+          </div>
+      )}
     }
     ///////////////////////////////////////////////////////
     if (this.props.poiObject) {

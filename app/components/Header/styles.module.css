@@ -69,15 +69,6 @@
   height:100%;
 }
 
-.checkboxdiv1 {
-  position: absolute;
-  top: 80px;
-  left: 70%;
-  width: 20%;
-  height: 400px;
-  margin:0;
-}
-
 .checkbox {
   font-size: 10px;
   height: 11px;
