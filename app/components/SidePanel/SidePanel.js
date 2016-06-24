@@ -109,7 +109,7 @@ const SidePanel=React.createClass({
   },
   //do a POST request////////////////////////////////////
   requestPOST: function() {
-    var url = "/quotes";
+    var url = "/save";
     var data = JSON.stringify({
       location:this.props.position,
       totalTime: formattedTime
@@ -119,6 +119,12 @@ const SidePanel=React.createClass({
     //Set header, make sure has application/json, for JSON format, also must JSON.stringify the data before sending
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.send(data);
+
+    var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", "/", true ); // false for synchronous request
+        xmlHttp.send( null );
+        console.log(xmlHttp.responseText);
+
   },
   ///////////////////////////////////////////////////////
   render: function() {
