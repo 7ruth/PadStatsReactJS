@@ -6,6 +6,7 @@ var counters={};
 var cumulativeTime = 0;
 var cumulativeTimeObject={};
 var formattedTime;
+var poisInformation = [];
 ///////////////////////////////////////////////////////
 const SidePanel=React.createClass({
   ///////////////////////////////////////////////////////
@@ -54,7 +55,7 @@ const SidePanel=React.createClass({
     //create a new section which will contain the POI result for that category
     var section = document.createElement('section');
     section.innerHTML = this.props.poiObject[[i]][counters[[i]]].name
-    if (this.props.distancesObject && Object.keys(this.props.distancesObject).length/2 === this.props.userSelectionWords.length){
+    if (this.props.distancesObject && Object.keys(this.props.distancesObject).length / 2 === this.props.userSelectionWords.length){
       cumulativeTime = 0;
       // var p = document.createElement('p');
       var p1 = document.createElement('p');
@@ -62,7 +63,8 @@ const SidePanel=React.createClass({
       p1.innerHTML = this.props.distancesObject[[i]+"TravelTime"]
       // section.appendChild(p)
       section.appendChild(p1)
-
+      // record info into an object that will be saved in the DB along with other info for this address
+      poisInformation[i] = [this.props.poiObject[[i]][counters[[i]]].name, this.props.distancesObject[[i]+"TravelTime"]]
       //calculate total travel time for the address
       cumulativeTimeObject[i] = timestrToSec(this.props.distancesObject[[i]+"TravelTime"])
 
@@ -109,22 +111,24 @@ const SidePanel=React.createClass({
   },
   //do a POST request////////////////////////////////////
   requestPOST: function() {
+    console.log(poisInformation);
+    poisInformation['location'] = this.props.place
+    poisInformation['totalTime'] = formattedTime
     var url = "/save";
     var data = JSON.stringify({
-      location:this.props.position,
+      location: this.props.place,
       totalTime: formattedTime
+      // poi: poisInformation["gym"]
     })
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     //Set header, make sure has application/json, for JSON format, also must JSON.stringify the data before sending
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.send(data);
-
-    var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "GET", "/", true ); // false for synchronous request
-        xmlHttp.send( null );
-        console.log(xmlHttp.responseText);
-
+    //retrieve data from DB
+    // var xhr = new XMLHttpRequest();
+    // xhr.open("GET", "/retrieve", true);
+    // xhr.send();
   },
   ///////////////////////////////////////////////////////
   render: function() {
