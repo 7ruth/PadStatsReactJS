@@ -63,13 +63,15 @@ const Header=React.createClass({
     userSelection=newSelection;
     for (var i=0; i<userSelection.length; i++){
       userSelectionWords.push(placeTypesKey[userSelection[i]])
+      if (!counters[userSelection[i]]){
+        counters[userSelection[i]]=0
+      }
     }
     this.setState({
       userSelection: userSelection,
-      userSelectionWords: userSelectionWords
+      userSelectionWords: userSelectionWords,
+      counters: counters
     });
-    ///! Implement a way to update routes on checkbox changes... should deal with it here.
-    ///! Also a good place to add counters here... and set counters state here also to make sure everything flows
   },
   ///////////////////////////////////////////////////////
   renderAutoComplete: function() {
@@ -225,6 +227,7 @@ const Header=React.createClass({
         </div>
         <div>
           <MainMap {...props}
+            place = {this.state.place}
             directions = {this.state.directions}
             counters = {this.state.counters}
             category = {this.state.category}

@@ -15,6 +15,13 @@ const MainMap = React.createClass({
       position: null
     }
   },
+  ///////////////////////////////////////////////////////
+  componentDidUpdate(prevProps) {
+      const {userSelection} = this.props;
+      if (userSelection !== prevProps.userSelection){
+        this.sidePanelComponent.poiManagerReRender();
+      }
+  },
   //Gets the +/- click commands data on each category from the SidePanel component to the Header component
   onClick: function(counters) {
     this.props.onClick(counters)
@@ -33,6 +40,7 @@ const MainMap = React.createClass({
       var sidepanel =
         <div className={styles.left}>
           <SidePanel {...props}
+            place = {this.props.place}
             position = {this.props.position}
             poiObject = {this.props.poiObject}
             placesTypes = {this.props.placesTypes}

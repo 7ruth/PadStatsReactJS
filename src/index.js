@@ -100,8 +100,10 @@ export class Map extends React.Component {
       if (prevState.currentDirections !== this.state.currentDirections) {
         this.directionsMap(this.props.userSelection);
       }
+      if (prevProps.userSelection !== this.props.userSelection) {
+        this.directionsMap(this.props.userSelection);
+      }
     }
-
 
     componentWillUnmount() {
       const {google} = this.props;
@@ -180,10 +182,10 @@ export class Map extends React.Component {
       const {google} = this.props;
       const maps = google.maps;
 
-      if (!this.state.currentCategory && counter<this.state.initialCategories.length) {
+      if (!this.state.currentCategory && counter<this.state.initialCategories.length && this.props.userSelection.length===this.state.initialCategories.length) {
 
         // if this is an initial load on a new address (due to counter being 0) (but not an initial load of the site (directionsRendererArray is filled)), clean routes
-        if(counter === 0 && directionsRendererArray) {
+        if(counter === 0 && directionsRendererArray && this.props.userSelection.length===this.state.initialCategories.length) {
           for(var i=0; i<Object.keys(directionsRendererArray).length; i++) {
             directionsRendererArray[Object.keys(directionsRendererArray)[i]].setMap(null);
           }
@@ -191,33 +193,67 @@ export class Map extends React.Component {
 
         var directionsRenderer = new google.maps.DirectionsRenderer({
           suppressMarkers: true,
-          draggable: true,
+          draggable: false,
           map: map,
           polylineOptions: new google.maps.Polyline({strokeColor: rainbow(Math.round(Math.random() * 100),Math.round(Math.random() * 9)),
           })});
-
-        directionsRendererArray[this.state.initialCategories[counter]]=directionsRenderer;
-        directionsRendererArray[this.state.initialCategories[counter]].setMap(map);
-        directionsRendererArray[this.state.initialCategories[counter]].setDirections(this.state.currentDirections);
+        directionsRendererArray[this.props.userSelection[counter]]=directionsRenderer;
+        directionsRendererArray[this.props.userSelection[counter]].setMap(map);
+        directionsRendererArray[this.props.userSelection[counter]].setDirections(this.state.currentDirections);
         //use counter and Counters to select the poi object thats being routed
-        var routedPoi = this.state.currentPoiObject[this.state.initialCategories[counter]][this.state.currentCounters[this.state.initialCategories[counter]]]
+        var routedPoi = this.state.currentPoiObject[this.props.userSelection[counter]][this.state.currentCounters[this.props.userSelection[counter]]]
         // create a marker for current POI and category
-        this.createMarker(routedPoi, this.state.initialCategories[counter]);
+        this.createMarker(routedPoi, this.props.userSelection[counter]);
         //calc distance and time to the POI from the center address
         var origin_lat = this.state.currentLocation.lat();
         var origin_lng = this.state.currentLocation.lng();
         var latitude = routedPoi.geometry.location.lat();
         var longitude = routedPoi.geometry.location.lng();
-        distances[this.state.initialCategories[counter]] = this.calcDistance(origin_lat,origin_lng,latitude,longitude);
+        distances[this.props.userSelection[counter]] = this.calcDistance(origin_lat,origin_lng,latitude,longitude);
         //calc travel time to the POI
-        distances[this.state.initialCategories[counter]+"TravelTime"]= this.computetime(directionsRendererArray[this.state.initialCategories[counter]].directions)
+        distances[this.props.userSelection[counter]+"TravelTime"]= this.computetime(directionsRendererArray[this.props.userSelection[counter]].directions)
         //export distances object to MainMap component for rendering on the SidePanel component
         this.props.exportObject(distances)
         /////////////////////////////////////////////////////////////////
         counter += 1
-        if (counter === this.state.initialCategories.length){
+        if (counter === this.props.userSelection.length){
           counter = 0
         }
+        //if selection of categories changed
+      } else if (this.props.userSelection.length!==this.state.initialCategories.length){
+        //if category is added
+        if (this.props.userSelection.length>this.state.initialCategories.length){
+          let newCategory = this.props.userSelection
+           .filter(x => this.props.initialCategories.indexOf(x) == -1)
+           .concat(this.props.initialCategories.filter(x => this.props.userSelection.indexOf(x) == -1));
+
+          var directionsRenderer = new google.maps.DirectionsRenderer({
+            suppressMarkers: true,
+            draggable: false,
+            map: map,
+            polylineOptions: new google.maps.Polyline({strokeColor: rainbow(Math.round(Math.random() * 100),Math.round(Math.random() * 9)),
+            })});
+
+          directionsRendererArray[newCategory]=directionsRenderer;
+          directionsRendererArray[newCategory].setMap(map);
+          directionsRendererArray[newCategory].setDirections(this.state.currentDirections);
+          console.log(this.state.currentDirections);
+          var routedPoi = this.state.currentPoiObject[newCategory][this.state.currentCounters[newCategory]]
+          // create a marker for current POI and category
+          this.createMarker(routedPoi, newCategory);
+          //calc distance and time to the POI from the center address
+          var origin_lat = this.state.currentLocation.lat();
+          var origin_lng = this.state.currentLocation.lng();
+          var latitude = routedPoi.geometry.location.lat();
+          var longitude = routedPoi.geometry.location.lng();
+          distances[newCategory] = this.calcDistance(origin_lat,origin_lng,latitude,longitude);
+          //calc travel time to the POI
+          distances[newCategory+"TravelTime"]= this.computetime(directionsRendererArray[newCategory].directions)
+          //export distances object to MainMap component for rendering on the SidePanel component
+          this.props.exportObject(distances)
+          //if category is deleted
+        } //else {}
+
         // On clicks of +/- arrows next to each category
       } else {
         //clear previous renderer
@@ -262,7 +298,6 @@ export class Map extends React.Component {
         return (c);
         }
         pastCounters = this.state.currentCounters
-
       }
 
     restyleMap() {

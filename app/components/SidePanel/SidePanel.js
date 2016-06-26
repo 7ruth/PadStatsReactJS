@@ -6,22 +6,18 @@ var counters={};
 var cumulativeTime = 0;
 var cumulativeTimeObject={};
 var formattedTime;
-var poisInformation = [];
+var poisInformation = {};
 ///////////////////////////////////////////////////////
 const SidePanel=React.createClass({
   ///////////////////////////////////////////////////////
   componentDidUpdate(prevProps) {
-      const {google, map, poiObject, distancesObject} = this.props;
-      if (poiObject !== prevProps.poiObject) {
-        for (var i=0; i<this.props.userSelectionWords.length; i++){
-          this.poiManager(this.props.userSelection[i]);
-        }
+      const {google, map, poiObject, distancesObject, userSelection} = this.props;
+      if (poiObject !== prevProps.poiObject && distancesObject!== prevProps.distancesObject) {
+        this.poiManagerReRender();
       }
-      if (distancesObject!== prevProps.distancesObject) {
-        for (var i=0; i<this.props.userSelectionWords.length; i++){
-          this.poiManager(this.props.userSelection[i]);
-        }
-      }
+      // if (userSelection !== prevProps.userSelection){
+      //   this.render();
+      // }
   },
   ///////////////////////////////////////////////////////
   poiManagerReRender: function() {
@@ -112,13 +108,12 @@ const SidePanel=React.createClass({
   //do a POST request////////////////////////////////////
   requestPOST: function() {
     console.log(poisInformation);
-    poisInformation['location'] = this.props.place
-    poisInformation['totalTime'] = formattedTime
     var url = "/save";
-    var data = JSON.stringify({
+    var data = {};
+    data = JSON.stringify({
       location: this.props.place,
-      totalTime: formattedTime
-      // poi: poisInformation["gym"]
+      totalTime: formattedTime,
+      poi: poisInformation
     })
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
@@ -136,12 +131,14 @@ const SidePanel=React.createClass({
     var totalTime=[];
     //if the object with all POI data is delivered
     if (this.props.poiObject) {
+console.log(counters);
       //if counter for a category doesnt exist, create it
       for (var i=0; i<this.props.userSelection.length; i++){
         if (!counters[this.props.userSelection[i]]){
         counters[this.props.userSelection[i]]=0
         }
       }
+console.log(counters);
       // see if old counters array has anything extra that doesnt match userSelection array key
       function keyExists(key, search) {
           if (!search || (search.constructor !== Array && search.constructor !== Object)) {
@@ -181,6 +178,8 @@ const SidePanel=React.createClass({
               </div>
           </div>)
       }
+
+console.log(poiRender);
 
       if(cumulativeTime === 0){
         totalTime.push(<div></div>)
