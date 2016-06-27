@@ -107,7 +107,6 @@ const SidePanel=React.createClass({
   },
   //do a POST request////////////////////////////////////
   requestPOST: function() {
-    console.log(poisInformation);
     var url = "/save";
     var data = {};
     data = JSON.stringify({
@@ -131,14 +130,12 @@ const SidePanel=React.createClass({
     var totalTime=[];
     //if the object with all POI data is delivered
     if (this.props.poiObject) {
-console.log(counters);
       //if counter for a category doesnt exist, create it
       for (var i=0; i<this.props.userSelection.length; i++){
         if (!counters[this.props.userSelection[i]]){
         counters[this.props.userSelection[i]]=0
         }
       }
-console.log(counters);
       // see if old counters array has anything extra that doesnt match userSelection array key
       function keyExists(key, search) {
           if (!search || (search.constructor !== Array && search.constructor !== Object)) {
@@ -178,8 +175,6 @@ console.log(counters);
               </div>
           </div>)
       }
-
-console.log(poiRender);
 
       if(cumulativeTime === 0){
         totalTime.push(<div></div>)

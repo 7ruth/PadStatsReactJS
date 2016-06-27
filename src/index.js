@@ -219,42 +219,7 @@ export class Map extends React.Component {
         if (counter === this.props.userSelection.length){
           counter = 0
         }
-        //if selection of categories changed
-      } else if (this.props.userSelection.length!==this.state.initialCategories.length){
-        //if category is added
-        if (this.props.userSelection.length>this.state.initialCategories.length){
-          let newCategory = this.props.userSelection
-           .filter(x => this.props.initialCategories.indexOf(x) == -1)
-           .concat(this.props.initialCategories.filter(x => this.props.userSelection.indexOf(x) == -1));
-
-          var directionsRenderer = new google.maps.DirectionsRenderer({
-            suppressMarkers: true,
-            draggable: false,
-            map: map,
-            polylineOptions: new google.maps.Polyline({strokeColor: rainbow(Math.round(Math.random() * 100),Math.round(Math.random() * 9)),
-            })});
-
-          directionsRendererArray[newCategory]=directionsRenderer;
-          directionsRendererArray[newCategory].setMap(map);
-          directionsRendererArray[newCategory].setDirections(this.state.currentDirections);
-          console.log(this.state.currentDirections);
-          var routedPoi = this.state.currentPoiObject[newCategory][this.state.currentCounters[newCategory]]
-          // create a marker for current POI and category
-          this.createMarker(routedPoi, newCategory);
-          //calc distance and time to the POI from the center address
-          var origin_lat = this.state.currentLocation.lat();
-          var origin_lng = this.state.currentLocation.lng();
-          var latitude = routedPoi.geometry.location.lat();
-          var longitude = routedPoi.geometry.location.lng();
-          distances[newCategory] = this.calcDistance(origin_lat,origin_lng,latitude,longitude);
-          //calc travel time to the POI
-          distances[newCategory+"TravelTime"]= this.computetime(directionsRendererArray[newCategory].directions)
-          //export distances object to MainMap component for rendering on the SidePanel component
-          this.props.exportObject(distances)
-          //if category is deleted
-        } //else {}
-
-        // On clicks of +/- arrows next to each category
+        //if +/- arrows are activated
       } else {
         //clear previous renderer
         directionsRendererArray[this.state.currentCategory].setMap(null);

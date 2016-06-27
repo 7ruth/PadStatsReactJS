@@ -61,17 +61,30 @@ const Header=React.createClass({
     userSelection=[];
     userSelectionWords=[];
     userSelection=newSelection;
+    console.log(userSelection);
+
+    var initialCategories=[];
+    var userSelectionWords = [];
     for (var i=0; i<userSelection.length; i++){
-      userSelectionWords.push(placeTypesKey[userSelection[i]])
       if (!counters[userSelection[i]]){
-        counters[userSelection[i]]=0
+      counters[userSelection[i]]=0
       }
+      initialCategories.push(userSelection[i])
+      userSelectionWords.push(placeTypesKey[userSelection[i]]);
     }
+    console.log(userSelectionWords);
+    ///////////////////////////////////////////////////////
     this.setState({
       userSelection: userSelection,
       userSelectionWords: userSelectionWords,
-      counters: counters
-    });
+      counters: counters,
+      initialCategories: initialCategories,
+      category: null
+    })
+    ///////////////////////////////////////////////////////
+    for (var i=0; i<userSelection.length; i++){
+      this.setDirections(Object.keys(counters)[i]);
+    }
   },
   ///////////////////////////////////////////////////////
   renderAutoComplete: function() {
