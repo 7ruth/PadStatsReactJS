@@ -65,15 +65,17 @@ const Header=React.createClass({
 
     var initialCategories=[];
     var userSelectionWords = [];
+    // if counter for category in user selection doesnt exist, assign it a value of 0
     for (var i=0; i<userSelection.length; i++){
       if (!counters[userSelection[i]]){
       counters[userSelection[i]]=0
       }
+      //push category names and categories into respected arrays
       initialCategories.push(userSelection[i])
       userSelectionWords.push(placeTypesKey[userSelection[i]]);
     }
     console.log(userSelectionWords);
-    ///////////////////////////////////////////////////////
+    //set state with newly selected info so it trickles down to other components
     this.setState({
       userSelection: userSelection,
       userSelectionWords: userSelectionWords,
