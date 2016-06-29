@@ -61,7 +61,6 @@ const Header=React.createClass({
     userSelection=[];
     userSelectionWords=[];
     userSelection=newSelection;
-    console.log(userSelection);
 
     var initialCategories=[];
     var userSelectionWords = [];
@@ -74,7 +73,7 @@ const Header=React.createClass({
       initialCategories.push(userSelection[i])
       userSelectionWords.push(placeTypesKey[userSelection[i]]);
     }
-    console.log(userSelectionWords);
+
     //set state with newly selected info so it trickles down to other components
     this.setState({
       userSelection: userSelection,
@@ -85,7 +84,7 @@ const Header=React.createClass({
     })
     ///////////////////////////////////////////////////////
     for (var i=0; i<userSelection.length; i++){
-      this.setDirections(Object.keys(counters)[i]);
+      this.setDirections(Object.keys(counters)[i], counters);
     }
   },
   ///////////////////////////////////////////////////////
@@ -142,6 +141,7 @@ const Header=React.createClass({
                 initialCategories.push(userSelection[i])
               }
               ///////////////////////////////////////////////////////
+              console.log(counters);
               this.setState({
                 counters: counters,
                 initialCategories: initialCategories,
@@ -149,7 +149,7 @@ const Header=React.createClass({
               })
               ///////////////////////////////////////////////////////
               for (var i=0; i<userSelection.length; i++){
-                this.setDirections(Object.keys(counters)[i]);
+                this.setDirections(Object.keys(counters)[i], counters);
               }
               prevCounters = counters;
             }
@@ -171,14 +171,14 @@ const Header=React.createClass({
       category: category
     })
     ///////////////////////////////////////////////////////
-    this.setDirections(category);
+    this.setDirections(category, counters);
   },
   ///////////////////////////////////////////////////////
-  setDirections: function(category) {
+  setDirections: function(category, counters) {
     const {google, map} = this.props;
     const request = {
       origin: this.state.position,
-      destination: this.state.poiObject[category][this.state.counters[category]]['geometry']['location'],
+      destination: this.state.poiObject[category][counters[category]]['geometry']['location'],
       travelMode: google.maps.DirectionsTravelMode.DRIVING
     }
       lookupDirections(google, map, request, category)

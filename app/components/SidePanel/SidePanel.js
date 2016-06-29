@@ -26,19 +26,21 @@ const SidePanel=React.createClass({
     }
   },
   ///////////////////////////////////////////////////////
-  handlePlusArrow: function(i) {
-    if(counters[i]<this.props.poiObject[[i]].length-1){
-      counters[i] += 1
+  handlePlusArrow: function(category) {
+    if(counters[category]<this.props.poiObject[[category]].length-1){
+      counters[category] += 1
+      console.log(category);
     }
-    this.poiManager(i);
+    this.poiManager(category);
+    console.log(counters);
     this.props.onClick(counters);
   },
   ///////////////////////////////////////////////////////
-  handleMinusArrow: function(i) {
-    if(counters[i]>0){
-      counters[i] -= 1
+  handleMinusArrow: function(category) {
+    if(counters[category]>0){
+      counters[category] -= 1
     }
-    this.poiManager(i);
+    this.poiManager(category);
     this.props.onClick(counters);
   },
   ///////////////////////////////////////////////////////

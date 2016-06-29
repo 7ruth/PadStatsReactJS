@@ -100,9 +100,6 @@ export class Map extends React.Component {
       if (prevState.currentDirections !== this.state.currentDirections) {
         this.directionsMap(this.props.userSelection);
       }
-      if (prevProps.userSelection !== this.props.userSelection) {
-        this.directionsMap(this.props.userSelection);
-      }
     }
 
     componentWillUnmount() {
@@ -182,10 +179,14 @@ export class Map extends React.Component {
       const {google} = this.props;
       const maps = google.maps;
 
-      if (!this.state.currentCategory && counter<this.state.initialCategories.length && this.props.userSelection.length===this.state.initialCategories.length) {
-
+      if (!this.state.currentCategory && counter<=this.state.initialCategories.length) {
+console.log(this.state.currentCategory);
+console.log(this.state.initialCategories);
+console.log(this.props.userSelection);
+console.log(counter);
+console.log(directionsRendererArray);
         // if this is an initial load on a new address (due to counter being 0) (but not an initial load of the site (directionsRendererArray is filled)), clean routes
-        if(counter === 0 && directionsRendererArray && this.props.userSelection.length===this.state.initialCategories.length) {
+        if(counter === 0) {
           for(var i=0; i<Object.keys(directionsRendererArray).length; i++) {
             directionsRendererArray[Object.keys(directionsRendererArray)[i]].setMap(null);
           }
@@ -217,10 +218,16 @@ export class Map extends React.Component {
         /////////////////////////////////////////////////////////////////
         counter += 1
         if (counter === this.props.userSelection.length){
+          console.log(this.props.userSelection.length);
+          console.log(this.props.userSelection);
           counter = 0
         }
         //if +/- arrows are activated
       } else {
+        console.log(this.state.currentCategory);
+        console.log(this.state.initialCategories);
+        console.log(this.props.userSelection);
+
         //clear previous renderer
         directionsRendererArray[this.state.currentCategory].setMap(null);
         //pass renderer to map
