@@ -23,8 +23,10 @@ const MainMap = React.createClass({
       }
   },
   //Gets the +/- click commands data on each category from the SidePanel component to the Header component
-  onClick: function(counters) {
-    this.props.onClick(counters)
+  onClick: function(counters, category) {
+    this.props.onClick(counters, category)
+    console.log(counters);
+    console.log(category);
   },
   //Gets the distance and time travelled to each destination exported from Map component
   exportObject: function(object){
@@ -41,6 +43,7 @@ const MainMap = React.createClass({
         <div className={styles.left}>
           <SidePanel {...props}
             place = {this.props.place}
+            counters = {this.props.counters}
             position = {this.props.position}
             poiObject = {this.props.poiObject}
             placesTypes = {this.props.placesTypes}
@@ -48,7 +51,7 @@ const MainMap = React.createClass({
             userSelectionWords = {this.props.userSelectionWords}
             distancesObject = {this.state.distancesObject}
             ref={(sidePanelComponent) => this.sidePanelComponent = sidePanelComponent}
-            onClick = {this.onClick}/>
+            onClick = {this.onClick} />
         </div>;
       } else {
         var sidepanel = <div></div>;

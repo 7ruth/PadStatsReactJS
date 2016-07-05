@@ -58,12 +58,10 @@ const Header=React.createClass({
   },
   ///////////////////////////////////////////////////////
   mapOptionsChanged: function(newSelection) {
-    userSelection=[];
     userSelectionWords=[];
     userSelection=newSelection;
 
     var initialCategories=[];
-    var userSelectionWords = [];
     // if counter for category in user selection doesnt exist, assign it a value of 0
     for (var i=0; i<userSelection.length; i++){
       if (!counters[userSelection[i]]){
@@ -73,7 +71,16 @@ const Header=React.createClass({
       initialCategories.push(userSelection[i])
       userSelectionWords.push(placeTypesKey[userSelection[i]]);
     }
-
+    //remove anything extra from the counters
+    if (Object.keys(counters).length>userSelection.length){
+      for (var i=0; i<Object.keys(counters).length; i++){
+        if (userSelection.indexOf(Object.keys(counters)[i])==-1){
+          delete counters[Object.keys(counters)[i]]
+        }
+      }
+    }
+    console.log(counters);
+    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
     //set state with newly selected info so it trickles down to other components
     this.setState({
       userSelection: userSelection,
@@ -134,6 +141,8 @@ const Header=React.createClass({
               })
               ///////////////////////////////////////////////////////
               var initialCategories=[];
+              counters ={};
+              console.log(counters);
               for (var i=0; i<userSelection.length; i++){
                 if (!counters[userSelection[i]]){
                 counters[userSelection[i]]=0
@@ -158,7 +167,9 @@ const Header=React.createClass({
     })
   },
   ///////////////////////////////////////////////////////
-  onClick: function(counters) {
+  onClick: function(counters, category) {
+    console.log(counters);
+    console.log(category);
     // figure out which counters category changed
     for(var i=0; i<Object.keys(counters).length; i++){
       if(counters[Object.keys(counters)[i]] !== prevCounters[Object.keys(counters)[i]]){
@@ -166,6 +177,7 @@ const Header=React.createClass({
       }
     }
     ///////////////////////////////////////////////////////
+    console.log(counters);
     this.setState({
       counters: counters,
       category: category
@@ -175,6 +187,8 @@ const Header=React.createClass({
   },
   ///////////////////////////////////////////////////////
   setDirections: function(category, counters) {
+    console.log(counters);
+    console.log(category);
     const {google, map} = this.props;
     const request = {
       origin: this.state.position,
