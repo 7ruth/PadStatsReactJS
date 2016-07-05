@@ -27,10 +27,8 @@ const SidePanel=React.createClass({
   handlePlusArrow: function(category) {
     if(this.props.counters[category]<this.props.poiObject[[category]].length-1){
       this.props.counters[category] += 1
-      console.log(category);
     }
     this.poiManager(category);
-    console.log(this.props.counters);
     this.props.onClick(this.props.counters, category);
   },
   ///////////////////////////////////////////////////////
@@ -43,9 +41,6 @@ const SidePanel=React.createClass({
   },
   ///////////////////////////////////////////////////////
   poiManager: function(category) {
-    console.log(category);
-    console.log(this.props.counters);
-    console.log(this.props.poiObject);
     //manages user controlled scrolling of POI data under each category (which are controlled by the checkbox)
     const aref = this.refs[[category]];
     const node = ReactDOM.findDOMNode(aref);
@@ -54,25 +49,37 @@ const SidePanel=React.createClass({
     //create a new section which will contain the POI result for that category
     var section = document.createElement('section');
     section.innerHTML = this.props.poiObject[[category]][this.props.counters[[category]]].name
+    console.log(this.props.distancesObject);
+    console.log(this.props.userSelectionWords);
     if (this.props.distancesObject && Object.keys(this.props.distancesObject).length / 2 === this.props.userSelectionWords.length){
       cumulativeTime = 0;
-      // var p = document.createElement('p');
+      //make sure cumulative time object doesn't have extra categories
+      if (Object.keys(cumulativeTimeObject).length>this.props.userSelection.length){
+        for (var i=0; i<Object.keys(cumulativeTimeObject).length; i+=2){
+          if (this.props.userSelection.indexOf(Object.keys(cumulativeTimeObject)[i])==-1){
+            delete cumulativeTimeObject[Object.keys(cumulativeTimeObject)[i]]
+          }
+        }
+      }
+      //
       var p1 = document.createElement('p');
       // p.innerHTML = this.props.distancesObject[[i]]
       p1.innerHTML = this.props.distancesObject[[category]+"TravelTime"]
+      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!");
+      console.log(p1.innerHTML);
       // section.appendChild(p)
       section.appendChild(p1)
       // record info into an object that will be saved in the DB along with other info for this address
-      poisInformation[i] = [this.props.poiObject[[category]][this.props.counters[[category]]].name, this.props.distancesObject[[category]+"TravelTime"]]
+      poisInformation[category] = [this.props.poiObject[[category]][this.props.counters[[category]]].name, this.props.distancesObject[[category]+"TravelTime"]]
       //calculate total travel time for the address
-      cumulativeTimeObject[i] = timestrToSec(this.props.distancesObject[[category]+"TravelTime"])
+      cumulativeTimeObject[category] = timestrToSec(this.props.distancesObject[[category]+"TravelTime"])
+      console.log(cumulativeTimeObject);
 
       for (var i=0; i<Object.keys(cumulativeTimeObject).length; i++){
+        console.log(i);
         cumulativeTime += cumulativeTimeObject[Object.keys(cumulativeTimeObject)[i]]
       }
-
       formattedTime = formatTime(cumulativeTime)
-
       //Functions for time calcs
       //time to seconds
       function timestrToSec(timestr) {

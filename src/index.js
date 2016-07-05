@@ -174,17 +174,13 @@ export class Map extends React.Component {
     }
 
     directionsMap(userSelection){
+
       const map = this.map;
 
       const {google} = this.props;
       const maps = google.maps;
 
       if (!this.state.currentCategory && counter<=this.state.initialCategories.length) {
-console.log(this.state.currentCategory);
-console.log(this.state.initialCategories);
-console.log(this.props.userSelection);
-console.log(counter);
-console.log(directionsRendererArray);
         // if this is an initial load on a new address (due to counter being 0) (but not an initial load of the site (directionsRendererArray is filled)), clean routes
         if(counter === 0) {
           for(var i=0; i<Object.keys(directionsRendererArray).length; i++) {
@@ -210,6 +206,16 @@ console.log(directionsRendererArray);
         var origin_lng = this.state.currentLocation.lng();
         var latitude = routedPoi.geometry.location.lat();
         var longitude = routedPoi.geometry.location.lng();
+        //clean up distances object if user selection has changed
+        if (Object.keys(distances).length/2>this.props.userSelection.length){
+          for (var i=0; i<Object.keys(distances).length; i+=2){
+            if (this.props.userSelection.indexOf(Object.keys(distances)[i])==-1){
+              delete distances[Object.keys(distances)[i]]
+              delete distances[Object.keys(distances)[i+1]]
+            }
+          }
+        }
+        console.log(distances);
         distances[this.props.userSelection[counter]] = this.calcDistance(origin_lat,origin_lng,latitude,longitude);
         //calc travel time to the POI
         distances[this.props.userSelection[counter]+"TravelTime"]= this.computetime(directionsRendererArray[this.props.userSelection[counter]].directions)
@@ -218,16 +224,10 @@ console.log(directionsRendererArray);
         /////////////////////////////////////////////////////////////////
         counter += 1
         if (counter === this.props.userSelection.length){
-          console.log(this.props.userSelection.length);
-          console.log(this.props.userSelection);
           counter = 0
         }
         //if +/- arrows are activated
       } else {
-        console.log(this.state.currentCategory);
-        console.log(this.state.initialCategories);
-        console.log(this.props.userSelection);
-
         //clear previous renderer
         directionsRendererArray[this.state.currentCategory].setMap(null);
         //pass renderer to map
@@ -307,11 +307,20 @@ console.log(directionsRendererArray);
         position: place.geometry.location,
         visible: false
         });
-      //
+      //Overwrite previous marker for this category
       if(markerObject[category]){
         markerObject[category].setMap(null);
       }
-      //
+      //delete any extra markers (if user unchecked a category)
+      if (Object.keys(markerObject).length>this.props.userSelection.length){
+        for (var i=0; i<Object.keys(markerObject).length; i++){
+          if (this.props.userSelection.indexOf(Object.keys(markerObject)[i])==-1){
+            markerObject[Object.keys(markerObject)[i]].setMap(null);
+            delete markerObject[Object.keys(markerObject)[i]]
+          }
+        }
+      }
+      // Set new marker after cleanup
       markerObject[category]=marker;
       // Info Window Settings
       infowindow = new google.maps.InfoWindow();
