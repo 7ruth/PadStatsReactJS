@@ -41,7 +41,7 @@
     }
 
     input[type=text] {
-      width: 75%;
+      width: 90%;
       height: 80%;
       position: absolute;
       top: 3px;
@@ -58,23 +58,29 @@
   }
 
 .searchbox {
-  width: 50%;
+  width: 30%;
   padding: 0 10px 0 0;
 }
 
-.checkboxdiv {
+.menuButtons{
   order:1;
-  flex:1;
+  }
+
+.checkboxdiv {
+  order:2;
   width:50%;
   height:100%;
+  padding: 0 0 0 50px;
 }
 
 .checkbox {
-  font-size: 10px;
   height: 11px;
-  margin: 0 0 0 30px;
+  margin: 10px 0 0 20px;
+  word-spacing: 10px;
+  line-height: 1.5;
 
   label {
-    padding:3px;
+    font-size: 16px;
+    margin:20px;
   }
 }
