@@ -10,6 +10,10 @@ const routeMap = {
   'mainmap': {
     name: 'MainMap',
     component: require('./components/MainMap/MainMap').default
+  },
+  'savedresults': {
+    name: 'SavedResults',
+    component: require('./components/SavedResults/SavedResults').default
   }
 }
 
