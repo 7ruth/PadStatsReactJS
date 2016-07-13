@@ -14,7 +14,11 @@ const routeMap = {
   'savedresults': {
     name: 'SavedResults',
     component: require('./components/SavedResults/SavedResults').default
-  }
+  },
+  'landingpage': {
+    name: 'LandingPage',
+    component: require('./components/LandingPage/LandingPage').default
+  },
 }
 
 const createElement = (Component, props) => {
