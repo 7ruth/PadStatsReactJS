@@ -11,13 +11,9 @@ const routeMap = {
     name: 'MainMap',
     component: require('./components/MainMap/MainMap').default
   },
-  'savedresults': {
-    name: 'SavedResults',
-    component: require('./components/SavedResults/SavedResults').default
-  },
-  'landingpage': {
-    name: 'LandingPage',
-    component: require('./components/LandingPage/LandingPage').default
+  'about': {
+    name: 'About',
+    component: require('./components/About/About').default
   },
 }
 
@@ -33,8 +29,7 @@ const createElement = (Component, props) => {
 const routes = (
   <Router createElement={createElement}
           history={hashHistory}>
-    <Route component={Container}
-           path='/'>
+    <Route component={Container} path='/'>
       {Object.keys(routeMap).map(key => {
         const r = routeMap[key]
         return (<Route
@@ -43,7 +38,7 @@ const routes = (
                 name={r.name}
                 component={r.component} />)
       })}
-      <IndexRoute component={routeMap['mainmap'].component} />
+      <IndexRoute component={routeMap['about'].component} />
     </Route>
   </Router>
 )

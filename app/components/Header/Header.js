@@ -210,7 +210,6 @@ const Header=React.createClass({
       <div>
         <div className={styles.topbar}>
           <Link to="/"><h1>PadStats</h1></Link>
-
           <section>
             <div className={styles.searchbox}>
               <form action="/quotes" method="POST" onSubmit={this.onSubmit}>
