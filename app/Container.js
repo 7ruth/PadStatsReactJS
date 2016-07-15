@@ -4,6 +4,7 @@ import {Link} from 'react-router'
 import Header from './components/Header/Header'
 import {searchNearby} from '../src/lib/placeshelper.js'
 import Map, {Marker} from '../src/index'
+import auth from '../src/auth'
 ///////////////////////////////////////////////////////
 let GoogleApiWrapper;
 if (__IS_DEV__) {
@@ -26,8 +27,20 @@ export const Container = React.createClass({
   getInitialState() {
     return {
       places: [],
-      pagination: null
+      pagination: null,
+      loggedIn: auth.loggedIn()
     }
+  },
+  ///////////////////////////////////////////////////////
+  updateAuth(loggedIn) {
+    this.setState({
+      loggedIn: !!loggedIn
+    })
+  },
+  ///////////////////////////////////////////////////////
+  componentWillMount() {
+    auth.onChange = this.updateAuth
+    auth.login()
   },
   ///////////////////////////////////////////////////////
   renderChildren: function() {
@@ -51,14 +64,17 @@ export const Container = React.createClass({
     return (
       <div className={styles.container}>
         <div className={styles.topMenu}>
+          {this.state.loggedIn ? (
+            <Link to="/logout">Log out</Link>
+          ) : (
+            <Link to="/login">Sign in</Link>
+          )}
           <Link to="/"><h1>PadStats</h1></Link>
           <Link to="/MainMap"><h1>Find Perfect Home</h1></Link>
-          <Link to="/MainMap"><h1>Log In</h1></Link>
           <Link to="/MainMap"><h1>Register</h1></Link>
           {/*  Create log in buttons and button for main map. */}
           <div className={styles.wrapper}>
             <div className={styles.content}>
-
                 {c}
           {/*   <Map google={google}
                 className={'map'}
