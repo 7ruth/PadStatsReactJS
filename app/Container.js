@@ -65,9 +65,9 @@ export const Container = React.createClass({
       <div className={styles.container}>
         <div className={styles.topMenu}>
           {this.state.loggedIn ? (
-            <Link to="/logout">Log out</Link>
+            <Link to="/Logout">Log out</Link>
           ) : (
-            <Link to="/login">Sign in</Link>
+            <Link to="/Login">Sign in</Link>
           )}
           <Link to="/"><h1>PadStats</h1></Link>
           <Link to="/MainMap"><h1>Find Perfect Home</h1></Link>

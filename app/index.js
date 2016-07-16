@@ -15,6 +15,14 @@ const routeMap = {
     name: 'About',
     component: require('./components/About/About').default
   },
+  'login': {
+    name:'Login',
+    component: require('./components/Login/Login').default
+  },
+  'logout': {
+    name:'Logout',
+    component: require('./components/Logout/Logout').default
+  }
 }
 
 const createElement = (Component, props) => {
