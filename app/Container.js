@@ -5,6 +5,7 @@ import Header from './components/Header/Header'
 import {searchNearby} from '../src/lib/placeshelper.js'
 import Map, {Marker} from '../src/index'
 import auth from '../src/auth'
+import { Jumbotron } from 'react-bootstrap'
 ///////////////////////////////////////////////////////
 let GoogleApiWrapper;
 if (__IS_DEV__) {
@@ -16,6 +17,7 @@ if (__IS_DEV__) {
 import styles from './styles.module.css'
 ///////////////////////////////////////////////////////
 export const Container = React.createClass({
+
   propTypes: {
     children: T.element.isRequired
   },
@@ -32,23 +34,13 @@ export const Container = React.createClass({
     }
   },
   ///////////////////////////////////////////////////////
-  updateAuth(loggedIn) {
-    this.setState({
-      loggedIn: !!loggedIn
-    })
-  },
-  ///////////////////////////////////////////////////////
-  componentWillMount() {
-    auth.onChange = this.updateAuth
-    auth.login()
-  },
-  ///////////////////////////////////////////////////////
   renderChildren: function() {
     const {children} = this.props;
     if (!children) return;
     const sharedProps = {
       google: this.props.google,
-      loaded: this.props.loaded
+      loaded: this.props.loaded,
+      auth: this.props.route.auth //sends auth instance to children
     }
     return React.Children.map(children, c => {
       return React.cloneElement(c, sharedProps, {
