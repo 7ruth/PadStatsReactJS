@@ -1,10 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {Router, hashHistory, Redirect, Route, IndexRoute, Link} from 'react-router'
-
+import AuthService from './utils/AuthService'
 import styles from './global.styles.css';
 
 import Container from './Container'
+
+const auth = new AuthService(__AUTH0_CLIENT_ID__, __AUTH0_DOMAIN__);
+console.log(auth);
+// onEnter callback to validate authentication in private routes
+const requireAuth = (nextState, replace) => {
+  if (!auth.loggedIn()) {
+    replace({ pathname: '/login' })
+  }
+}
 
 const routeMap = {
   'mainmap': {
@@ -37,7 +46,7 @@ const createElement = (Component, props) => {
 const routes = (
   <Router createElement={createElement}
           history={hashHistory}>
-    <Route component={Container} path='/'>
+    <Route component={Container} path='/' auth={auth}>
       {Object.keys(routeMap).map(key => {
         const r = routeMap[key]
         return (<Route
@@ -47,6 +56,7 @@ const routes = (
                 component={r.component} />)
       })}
       <IndexRoute component={routeMap['about'].component} />
+      <Route path="access_token=:token" component={require('./components/Login/Login').default} /> //to prevent router errors
     </Route>
   </Router>
 )

@@ -67,11 +67,10 @@ export const Container = React.createClass({
           {this.state.loggedIn ? (
             <Link to="/Logout">Log out</Link>
           ) : (
-            <Link to="/Login">Sign in</Link>
+            <Link to="/Login">Sign in/Register</Link>
           )}
           <Link to="/"><h1>PadStats</h1></Link>
           <Link to="/MainMap"><h1>Find Perfect Home</h1></Link>
-          <Link to="/MainMap"><h1>Register</h1></Link>
           {/*  Create log in buttons and button for main map. */}
           <div className={styles.wrapper}>
             <div className={styles.content}>

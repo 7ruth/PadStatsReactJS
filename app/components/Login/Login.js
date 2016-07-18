@@ -1,47 +1,30 @@
-import React from 'react'
-import { withRouter } from 'react-router'
-import auth from '../../../src/auth.js'
+import React, { PropTypes as T } from 'react'
+import {ButtonToolbar, Button} from 'react-bootstrap'
+import AuthService from '../../utils/AuthService'
+import styles from './styles.module.css'
 
-const Login = React.createClass({
-  getInitialState() {
-    return {
-      error: false
-    }
-  },
-
-  handleSubmit(event) {
-    event.preventDefault()
-
-    const email = this.refs.email.value
-    const pass = this.refs.pass.value
-
-    auth.login(email, pass, (loggedIn) => {
-      if (!loggedIn)
-        return this.setState({ error: true })
-
-      const { location } = this.props
-
-      if (location.state && location.state.nextPathname) {
-        this.props.router.replace(location.state.nextPathname)
-      } else {
-        this.props.router.replace('/')
-      }
-    })
-  },
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label><input ref="email" placeholder="email" defaultValue="joe@example.com" /></label>
-        <label><input ref="pass" placeholder="password" /></label> (hint: password1)<br />
-        <button type="submit">login</button>
-        {this.state.error && (
-          <p>Bad login information</p>
-        )}
-      </form>
-    )
+export class Login extends React.Component {
+  static contextTypes = {
+    router: T.object
   }
 
-})
+  static propTypes = {
+    location: T.object,
+    auth: T.instanceOf(AuthService)
+  }
 
-export default withRouter(Login)
+  render() {
+    const { auth } = this.props
+    console.log(auth);
+    return (
+      <div className={styles.root}>
+        <h2>Login</h2>
+        <ButtonToolbar className={styles.toolbar}>
+          <Button bsStyle="primary" onClick={auth.login.bind(this)}>Login</Button>
+        </ButtonToolbar>
+      </div>
+    )
+  }
+}
+
+export default Login;
