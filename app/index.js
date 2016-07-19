@@ -31,6 +31,10 @@ const routeMap = {
   'logout': {
     name:'Logout',
     component: require('./components/Logout/Logout').default
+  },
+  'home': {
+    name: 'Home',
+    component: require('./components/Home/Home').default
   }
 }
 

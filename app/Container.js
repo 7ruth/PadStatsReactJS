@@ -6,6 +6,9 @@ import {searchNearby} from '../src/lib/placeshelper.js'
 import Map, {Marker} from '../src/index'
 import auth from '../src/auth'
 import { Jumbotron } from 'react-bootstrap'
+import AuthService from './utils/AuthService'
+import {Button} from 'react-bootstrap'
+import styles from './styles.module.css'
 ///////////////////////////////////////////////////////
 let GoogleApiWrapper;
 if (__IS_DEV__) {
@@ -14,12 +17,10 @@ if (__IS_DEV__) {
   GoogleApiWrapper = require('../dist').GoogleApiWrapper
 }
 ///////////////////////////////////////////////////////
-import styles from './styles.module.css'
-///////////////////////////////////////////////////////
 export const Container = React.createClass({
-
   propTypes: {
-    children: T.element.isRequired
+    children: T.element.isRequired,
+    auth: T.instanceOf(AuthService)
   },
   ///////////////////////////////////////////////////////
   contextTypes: {
@@ -30,17 +31,27 @@ export const Container = React.createClass({
     return {
       places: [],
       pagination: null,
-      loggedIn: auth.loggedIn()
+      loggedIn: auth.loggedIn(),
+      profile: this.props.route.auth.getProfile()
     }
   },
   ///////////////////////////////////////////////////////
+  componentDidUpdate(prevProps) {
+      profile: this.props.route.auth.getProfile()
+  },
+  logout() {
+    this.props.route.auth.logout()
+    this.context.router.push('/about');
+  },
+  ///////////////////////////////////////////////////////
   renderChildren: function() {
+
     const {children} = this.props;
     if (!children) return;
     const sharedProps = {
       google: this.props.google,
       loaded: this.props.loaded,
-      auth: this.props.route.auth //sends auth instance to children
+      auth: this.props.route.auth
     }
     return React.Children.map(children, c => {
       return React.cloneElement(c, sharedProps, {
@@ -53,30 +64,38 @@ export const Container = React.createClass({
     const {router} = this.context;
     const props = this.props;
     const c = this.renderChildren();
+
     return (
       <div className={styles.container}>
-        <div className={styles.topMenu}>
-          {this.state.loggedIn ? (
-            <Link to="/Logout">Log out</Link>
+        <div className={styles.topbar}>
+          {this.props.route.auth.loggedIn() ? (
+            [
+              <Link className={styles.topbarItem} to="/">PadStats</Link>,
+              <Link className={styles.topbarItem} to="/MainMap">Find A Perfect Home</Link>,
+              <Link className={styles.topbarItem} to="/Home">My Searches</Link>,
+              <a className={styles.topbarItem} onClick={this.logout.bind(this)}>Logout</a>
+            ]
           ) : (
-            <Link to="/Login">Sign in/Register</Link>
+            [
+              <Link className={styles.topbarItemRight} to="/">PadStats</Link>,
+              <Link className={styles.topbarItemLeft}to="/Login">Sign in/Register</Link>
+            ]
           )}
-          <Link to="/"><h1>PadStats</h1></Link>
-          <Link to="/MainMap"><h1>Find Perfect Home</h1></Link>
+
+          </div>
           {/*  Create log in buttons and button for main map. */}
           <div className={styles.wrapper}>
             <div className={styles.content}>
                 {c}
-          {/*   <Map google={google}
-                className={'map'}
-                visible={false}>
-              <Header />
-            </Map>  */}
+            {/*   <Map google={google}
+                  className={'map'}
+                  visible={false}>
+                <Header />
+              </Map>  */}
 
             </div>
           </div>
         </div>
-      </div>
     )
   }
 })

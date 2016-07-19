@@ -29,3 +29,49 @@ html, body {
     min-height: 100vh;
   }
 }
+.topbar {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  background: #F56335;
+  /*#e96f48*/
+  width: 100%;
+  height: 80px;
+  line-height: 80px;
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+
+  a {
+    /*text-transform: uppercase;*/
+    text-decoration: none;
+    letter-spacing: 1px;
+    color: #fff;
+    line-height: 60px;
+    cursor: pointer;
+  }
+
+.topbarItem {
+  width: 20%;
+  margin: 10px;
+  text-align: center;
+  margin-right:auto;
+  vertical-align:bottom;
+}
+
+.topbarItemLeft {
+  width: 20%;
+  margin: 10px;
+  text-align: center;
+  margin-left: auto;
+}
+
+.topbarItemRight {
+  width: 20%;
+  margin: 10px;
+  text-align: center;
+  margin-right: auto;
+}
+
+}
