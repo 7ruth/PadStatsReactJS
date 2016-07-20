@@ -26,7 +26,7 @@ const MainMap = React.createClass({
   onClick: function(counters, category) {
     this.props.onClick(counters, category)
     console.log(counters);
-    console.log(category);
+    console.log(counters);
   },
   //Gets the distance and time travelled to each destination exported from Map component
   exportObject: function(object){
@@ -51,7 +51,7 @@ const MainMap = React.createClass({
             userSelectionWords = {this.props.userSelectionWords}
             distancesObject = {this.state.distancesObject}
             ref={(sidePanelComponent) => this.sidePanelComponent = sidePanelComponent}
-            onClick = {this.onClick} />
+            onClick = {this.onClick}/>
         </div>;
       } else {
         var sidepanel = <div></div>;
@@ -64,7 +64,7 @@ const MainMap = React.createClass({
           <Map {...props}
               containerStyle={{
                 position: 'relative',
-                height: '100vh',
+                height: 'calc(100vh - 80px)',
                 width: '100%'
               }}
               center={this.props.position}

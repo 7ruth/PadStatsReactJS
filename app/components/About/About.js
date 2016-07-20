@@ -1,20 +1,19 @@
 import React from 'react'
 import {Link} from 'react-router'
+import styles from './styles.module.css'
 ///////////////////////////////////////////////////////
 const About = React.createClass({
   render: function() {
-    return(<div>
-
-      <h1>PadStats</h1>
-      <h2>informal, a persons home.</h2>
-      <h2>noun, the practice or science of collecting and analyzing numerical data in large quantities, especially for the purpose of inferring proportions in a whole from those in a representative sample.</h2>
-      <br />
-      <h1>About</h1>
-
-
-      <Link to="/MainMap">Find A Perfect Home</Link>
-
+    return(
+      <div>
+        <div className={styles.mainContainer}>
+          <div className={styles.mainTitle}>PadStats</div>
+          <div className={styles.mainText}>We help you compare your home options to identify the most time saving (convinient) property.</div>
+          <div className={styles.subText}>Try our service by searching an address below. </div>
+          <div className={styles.search}><Link to="/MainMap">Find A Perfect Home</Link> </div>
+        </div>
       </div>
+
     )
   }
 })

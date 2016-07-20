@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import MainMap from '../../components/MainMap/MainMap'
-import styles from './styles.module.css';
+import styles from './styles.module.css'
 import {Link} from 'react-router'
 import {searchNearby} from '../../../src/lib/placeshelper.js'
 import {lookupDirections} from '../../../src/lib/directionshelper.js'
@@ -209,7 +209,7 @@ const Header=React.createClass({
     return (
       <div>
         <div className={styles.topbar}>
-          
+
           <section>
             <div className={styles.searchbox}>
               <form action="/quotes" method="POST" onSubmit={this.onSubmit}>
