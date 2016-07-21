@@ -86,12 +86,12 @@ export const Container = React.createClass({
           {/*  Create log in buttons and button for main map. */}
           <div className={styles.wrapper}>
             <div className={styles.content}>
-                {c}
-            {/*   <Map google={google}
+            {/*  {c}*/}
+            <Map google={google}
                   className={'map'}
                   visible={false}>
                 <Header />
-              </Map>  */}
+              </Map>
 
             </div>
           </div>

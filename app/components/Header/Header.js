@@ -219,9 +219,6 @@ const Header=React.createClass({
                     placeholder="Enter a location" />
               </form>
             </div>
-            <div className={styles.menuButtons}>
-              <button>Saved Results</button>
-            </div>
             <div className={styles.checkboxdiv}>
               <CheckboxGroup
                 name="mapOptions"

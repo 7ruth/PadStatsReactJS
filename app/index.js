@@ -35,6 +35,10 @@ const routeMap = {
   'home': {
     name: 'Home',
     component: require('./components/Home/Home').default
+  },
+  'header': {
+    name: 'Header',
+    component: require('./components/Header/Header').default
   }
 }
 

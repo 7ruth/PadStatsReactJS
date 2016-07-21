@@ -79,7 +79,9 @@ const MainMap = React.createClass({
                 <Marker
                   onClick={this.onMarkerClick}
                   position={this.props.position} />
+
           </Map>
+
         </div>
       </div>
     )

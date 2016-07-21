@@ -1,14 +1,14 @@
 .topbar {
   position: fixed;
   z-index: 10;
-  top: 0;
+  top: 50px;
   left: 0;
-  background: #F56335;
+  background: #f97d0b;
   /*#e96f48*/
   width: 100%;
   padding: 0 25px;
-  height: 80px;
-  line-height: 80px;
+  height: 50px;
+  line-height: 50px;
   color: #fff;
 
   a {
@@ -23,7 +23,7 @@
   section {
     position: absolute;
     top: 0px;
-    left: 200px;
+    left: 85px;
     width: 80vw;
     height: 80px;
     display: flex;
@@ -31,9 +31,9 @@
 }
 
   form {
-    margin: 20px auto;
+    margin: 10px auto;
     position: relative;
-    height: 30px;
+    height: 20px;
 
     input {
       height: 100%;
@@ -62,13 +62,9 @@
   padding: 0 10px 0 0;
 }
 
-.menuButtons{
-  order:1;
-  }
-
 .checkboxdiv {
   order:2;
-  width:50%;
+  width:80%;
   height:100%;
   padding: 0 0 0 50px;
 }
@@ -76,11 +72,11 @@
 .checkbox {
   height: 11px;
   margin: 10px 0 0 20px;
-  word-spacing: 10px;
+  word-spacing: 3px;
   line-height: 1.5;
 
   label {
     font-size: 16px;
-    margin:20px;
+    margin:10px;
   }
 }
