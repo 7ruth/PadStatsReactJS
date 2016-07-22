@@ -45,18 +45,15 @@ export default class AuthService extends EventEmitter {
 
   login() {
     // Call the show method to display the widget.
-    this.lock.show()
+    this.lock.show({
+      socialBigButtons: false
+    });
   }
 
   loggedIn(){
     // Checks if there is a saved token and it's still valid
     const token = this.getToken()
     return !!token && !isTokenExpired(token)
-    
-    // console.log("***************$$$$$$$$******************");
-    // console.log(!!token);
-    // console.log(!!token && !isTokenExpired(token));
-    // console.log(!isTokenExpired(token));
   }
 
   setProfile(profile){

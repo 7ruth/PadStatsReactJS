@@ -28,7 +28,7 @@ html, body {
   }
 }
 .topbar {
-  font-size: 26px;
+  font-size: 4vh;
   position: fixed;
   z-index: 10;
   top: 0;
@@ -60,7 +60,7 @@ html, body {
 }
 
 .topbarItemLeft {
-  width: 20%;
+  width: 30%;
   margin: 10px;
   text-align: center;
   margin-left: auto;

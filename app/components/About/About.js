@@ -10,7 +10,7 @@ const About = React.createClass({
           <div className={styles.mainTitle}>PadStats</div>
           <div className={styles.mainText}>We help you compare your home options to identify the most time saving (convinient) property.</div>
           <div className={styles.subText}>Try our service by searching an address below. </div>
-          <div className={styles.search}><Link to="/MainMap">Find A Perfect Home</Link> </div>
+          <div className={styles.search}><Link to="/Header">Find A Perfect Home for YOU</Link> </div>
         </div>
       </div>
 

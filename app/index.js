@@ -7,7 +7,6 @@ import styles from './global.styles.css';
 import Container from './Container'
 
 const auth = new AuthService(__AUTH0_CLIENT_ID__, __AUTH0_DOMAIN__);
-console.log(auth);
 // onEnter callback to validate authentication in private routes
 const requireAuth = (nextState, replace) => {
   if (!auth.loggedIn()) {
@@ -23,14 +22,6 @@ const routeMap = {
   'about': {
     name: 'About',
     component: require('./components/About/About').default
-  },
-  'login': {
-    name:'Login',
-    component: require('./components/Login/Login').default
-  },
-  'logout': {
-    name:'Logout',
-    component: require('./components/Logout/Logout').default
   },
   'home': {
     name: 'Home',

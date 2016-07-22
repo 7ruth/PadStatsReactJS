@@ -4,7 +4,6 @@ import {Link} from 'react-router'
 import Header from './components/Header/Header'
 import {searchNearby} from '../src/lib/placeshelper.js'
 import Map, {Marker} from '../src/index'
-import auth from '../src/auth'
 import { Jumbotron } from 'react-bootstrap'
 import AuthService from './utils/AuthService'
 import {Button} from 'react-bootstrap'
@@ -31,7 +30,6 @@ export const Container = React.createClass({
     return {
       places: [],
       pagination: null,
-      loggedIn: auth.loggedIn(),
       profile: this.props.route.auth.getProfile()
     }
   },
@@ -71,14 +69,14 @@ export const Container = React.createClass({
           {this.props.route.auth.loggedIn() ? (
             [
               <Link className={styles.topbarItem} to="/">PadStats</Link>,
-              <Link className={styles.topbarItem} to="/MainMap">Find A Perfect Home</Link>,
+              <Link className={styles.topbarItem} to="/Header">Search</Link>,
               <Link className={styles.topbarItem} to="/Home">My Searches</Link>,
               <a className={styles.topbarItem} onClick={this.logout.bind(this)}>Logout</a>
             ]
           ) : (
             [
               <Link className={styles.topbarItemRight} to="/">PadStats</Link>,
-              <Link className={styles.topbarItemLeft}to="/Login">Sign in/Register</Link>
+              <a className={styles.topbarItemLeft} onClick={this.props.route.auth.login.bind(this)}>Login/Register</a>
             ]
           )}
 
@@ -86,11 +84,11 @@ export const Container = React.createClass({
           {/*  Create log in buttons and button for main map. */}
           <div className={styles.wrapper}>
             <div className={styles.content}>
-            {/*  {c}*/}
+            {/*    <Header />*/}
             <Map google={google}
                   className={'map'}
                   visible={false}>
-                <Header />
+              {c}
               </Map>
 
             </div>
