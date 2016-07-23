@@ -7,12 +7,6 @@ import styles from './global.styles.css';
 import Container from './Container'
 
 const auth = new AuthService(__AUTH0_CLIENT_ID__, __AUTH0_DOMAIN__);
-// onEnter callback to validate authentication in private routes
-const requireAuth = (nextState, replace) => {
-  if (!auth.loggedIn()) {
-    replace({ pathname: '/login' })
-  }
-}
 
 const routeMap = {
   'mainmap': {
@@ -55,7 +49,6 @@ const routes = (
                 component={r.component} />)
       })}
       <IndexRoute component={routeMap['about'].component} />
-      <Route path="access_token=:token" component={require('./components/Login/Login').default} /> //to prevent router errors
     </Route>
   </Router>
 )

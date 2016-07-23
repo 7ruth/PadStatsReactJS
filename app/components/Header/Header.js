@@ -212,7 +212,7 @@ const Header=React.createClass({
 
           <section>
             <div className={styles.searchbox}>
-              <form action="/quotes" method="POST" onSubmit={this.onSubmit}>
+              <form onSubmit={this.onSubmit}>
                 <input
                     ref='autocomplete'
                     type="text"
