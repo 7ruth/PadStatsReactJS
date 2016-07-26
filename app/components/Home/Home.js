@@ -25,40 +25,49 @@ export class Home extends React.Component {
     })
   }
 
-  requestGET() {
-    var url = "/retrieve";
-    var data = {};
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
-    //Set header, make sure has application/json, for JSON format, also must JSON.stringify the data before sending
-    xhr.send(null);
-    //retrieve data from DB
-    // var xhr = new XMLHttpRequest();
-    // xhr.open("GET", "/retrieve", true);
-    // xhr.send();
-  }
+  // requestGET() {
+  //   var data = {};
+  //   var xhr = new XMLHttpRequest();
+  //   var userID=JSON.parse(localStorage.profile).global_client_id;
+  //   console.log(userID);
+  //   var url = "/retrieve/"+userID;
+  //   console.log(url);
+  //   xhr.open("GET", url, true);
+  //   //Set header, make sure has application/json, for JSON format, also must JSON.stringify the data before sending
+  //   xhr.send(null);
+  //   //retrieve data from DB
+  //   // var xhr = new XMLHttpRequest();
+  //   // xhr.open("GET", "/retrieve", true);
+  //   // xhr.send();
+  // }
+
 
   componentDidMount() {
-    this.serverRequest = $.get("/retrieve", function (result) {
-      console.log("hiiiiiii");
-      // var lastGist = result[0];
-      // this.setState({
-      //   username: lastGist.owner.login,
-      //   lastGistUrl: lastGist.html_url
-      // });
+    var userID=JSON.parse(localStorage.profile).global_client_id;
+    var url = "/retrieve/"+userID;
+    console.log(url);
+    this.serverRequest = $.get(url, function (result) {
+      console.log(result);
+      this.setState({
+        userMongoProfile: result
+      });
     }.bind(this));
   }
 
- httpGetAsync(theUrl) {
-   var xmlHttp = new XMLHttpRequest();
-   xmlHttp.onreadystatechange = function() {
-     if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-       console.log(xmlHttp.responseText)
-     }
-   }
-   xmlHttp.open("GET", theUrl, true);
-   xmlHttp.send(null);
-}
+  // componentDidMount() {
+  //   this.serverRequest = $.get("/retrieve", function (result) {
+  //     console.log("hiiiiiii");
+  //     // var lastGist = result[0];
+  //     // this.setState({
+  //     //   username: lastGist.owner.login,
+  //     //   lastGistUrl: lastGist.html_url
+  //     // });
+  //   }.bind(this));
+  // }
+
+  getState(){
+    console.log(this.state);
+  }
 
   logout(){
     this.props.auth.logout()
@@ -66,17 +75,24 @@ export class Home extends React.Component {
   }
 
   render(){
-    this.httpGetAsync("/retrieve");
-    this.requestGET();
+    console.log(this.state.userMongoProfile);
     console.log(this.props.auth.getProfile());
     const { profile } = this.state
+
+    if (this.state.userMongoProfile) {
+    var searchedAddressList = this.state.userMongoProfile.map(function(obj){
+                    return <li>{obj.location.formatted_address}</li>;
+                  })
+    }
+
     return (
       <div className={styles.root}>
         <h2>Home</h2>
         <ProfileDetails profile={profile}></ProfileDetails>
         <ProfileEdit profile={profile} auth={this.props.auth}></ProfileEdit>
         <Button onClick={this.logout.bind(this)}>Logout</Button>
-        <Button onClick={this.requestGET}>Get</Button>
+        <Button onClick={this.getState.bind(this)}>GetState</Button>
+        <ul>{ searchedAddressList }</ul>
       </div>
     )
   }

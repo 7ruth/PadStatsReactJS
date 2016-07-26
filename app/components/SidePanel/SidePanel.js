@@ -119,7 +119,9 @@ const SidePanel=React.createClass({
   requestPOST: function() {
     var url = "/save";
     var data = {};
+    var userID=JSON.parse(localStorage.profile).global_client_id;
     data = JSON.stringify({
+      userID: userID,
       location: this.props.place,
       totalTime: formattedTime,
       poi: poisInformation
@@ -138,7 +140,7 @@ const SidePanel=React.createClass({
   render: function() {
     var poiRender=[];
     var totalTime=[];
-
+    console.log(JSON.parse(localStorage.profile).global_client_id);
 
       ///////////////////////////////////////////////////////
       Object.size = function(obj) {

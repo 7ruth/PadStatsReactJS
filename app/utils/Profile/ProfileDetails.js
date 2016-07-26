@@ -10,6 +10,7 @@ export class ProfileDetails extends React.Component {
   render(){
     const { profile } = this.props
     const { address } = profile.user_metadata || {}
+    console.log(profile.user_metadata);
     return (
       <Row className={s.root}>
         <Col md={2} mdOffset={4}>
