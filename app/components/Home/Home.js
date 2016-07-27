@@ -25,23 +25,6 @@ export class Home extends React.Component {
     })
   }
 
-  // requestGET() {
-  //   var data = {};
-  //   var xhr = new XMLHttpRequest();
-  //   var userID=JSON.parse(localStorage.profile).global_client_id;
-  //   console.log(userID);
-  //   var url = "/retrieve/"+userID;
-  //   console.log(url);
-  //   xhr.open("GET", url, true);
-  //   //Set header, make sure has application/json, for JSON format, also must JSON.stringify the data before sending
-  //   xhr.send(null);
-  //   //retrieve data from DB
-  //   // var xhr = new XMLHttpRequest();
-  //   // xhr.open("GET", "/retrieve", true);
-  //   // xhr.send();
-  // }
-
-
   componentDidMount() {
     var userID=JSON.parse(localStorage.profile).global_client_id;
     var url = "/retrieve/"+userID;
@@ -53,17 +36,6 @@ export class Home extends React.Component {
       });
     }.bind(this));
   }
-
-  // componentDidMount() {
-  //   this.serverRequest = $.get("/retrieve", function (result) {
-  //     console.log("hiiiiiii");
-  //     // var lastGist = result[0];
-  //     // this.setState({
-  //     //   username: lastGist.owner.login,
-  //     //   lastGistUrl: lastGist.html_url
-  //     // });
-  //   }.bind(this));
-  // }
 
   getState(){
     console.log(this.state);
@@ -81,8 +53,9 @@ export class Home extends React.Component {
 
     if (this.state.userMongoProfile) {
     var searchedAddressList = this.state.userMongoProfile.map(function(obj){
-                    return <li>{obj.location.formatted_address}</li>;
-                  })
+
+        return <li>{obj.location.formatted_address} {obj.location.poi}</li>;
+      })
     }
 
     return (
