@@ -4,7 +4,9 @@ import AuthService from '../../utils/AuthService'
 import ProfileDetails from '../../utils/Profile/ProfileDetails'
 import ProfileEdit from '../../utils/Profile/ProfileEdit'
 import styles from './styles.module.css'
-import $ from 'jquery';
+import $ from 'jquery'
+import ReactDOM from 'react-dom'
+
 
 export class Home extends React.Component {
   static contextTypes = {
@@ -35,6 +37,10 @@ export class Home extends React.Component {
         userMongoProfile: result
       });
     }.bind(this));
+    $(ReactDOM.findDOMNode(this.refs.hi)).sortable({
+      items: 'div',
+      update: this.handleSortableUpdate
+    });
   }
 
   getState(){
@@ -47,7 +53,6 @@ export class Home extends React.Component {
   }
 
   render(){
-    console.log(this.state.userMongoProfile);
     console.log(this.props.auth.getProfile());
     const { profile } = this.state
 
@@ -60,12 +65,17 @@ export class Home extends React.Component {
 
     return (
       <div className={styles.root}>
+
         <h2>Home</h2>
         <ProfileDetails profile={profile}></ProfileDetails>
         <ProfileEdit profile={profile} auth={this.props.auth}></ProfileEdit>
         <Button onClick={this.logout.bind(this)}>Logout</Button>
         <Button onClick={this.getState.bind(this)}>GetState</Button>
         <ul>{ searchedAddressList }</ul>
+        <div ref= "hi">
+          <div> hi</div>
+          <div> bye</div>
+         </div>
       </div>
     )
   }
