@@ -34,21 +34,6 @@ export const Container = React.createClass({
     }
   },
   ///////////////////////////////////////////////////////
-  componentDidMount () {
-    function loadScript(URL) {
-         var script= document.createElement('script');
-         script.type= 'text/javascript';
-         script.src= URL;
-         script.async = true;
-         document.body.appendChild(script);
-    }
-    var URLS = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js", "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"]
-    for (var i=0; i<URLS.length; i++){
-      console.log("hiiii");
-      loadScript(URLS[i]);
-    }
-  },
-  ///////////////////////////////////////////////////////
   componentDidUpdate(prevProps) {
       profile: this.props.route.auth.getProfile()
   },
@@ -98,7 +83,7 @@ export const Container = React.createClass({
           </div>
           {/*  Create log in buttons and button for main map. */}
           <div className={styles.wrapper}>
-            <div className={styles.content}>
+            <div id="content" className={styles.content}>
             {/*    <Header />*/}
             <Map google={google}
                   className={'map'}

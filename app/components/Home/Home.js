@@ -1,12 +1,12 @@
 import React, { PropTypes as T } from 'react'
+import ReactDOM from 'react-dom'
 import {Button} from 'react-bootstrap'
 import AuthService from '../../utils/AuthService'
 import ProfileDetails from '../../utils/Profile/ProfileDetails'
 import ProfileEdit from '../../utils/Profile/ProfileEdit'
 import styles from './styles.module.css'
 import $ from 'jquery'
-import ReactDOM from 'react-dom'
-
+import MyFirstGrid from '../ProfileTable/ProfileTable.js'
 
 export class Home extends React.Component {
   static contextTypes = {
@@ -37,10 +37,6 @@ export class Home extends React.Component {
         userMongoProfile: result
       });
     }.bind(this));
-    $(ReactDOM.findDOMNode(this.refs.hi)).sortable({
-      items: 'div',
-      update: this.handleSortableUpdate
-    });
   }
 
   getState(){
@@ -53,7 +49,10 @@ export class Home extends React.Component {
   }
 
   render(){
+    var layouts = MyFirstGrid;
+
     console.log(this.props.auth.getProfile());
+    console.log(this.state.userMongoProfile);
     const { profile } = this.state
 
     if (this.state.userMongoProfile) {
@@ -66,19 +65,22 @@ export class Home extends React.Component {
     return (
       <div className={styles.root}>
 
-        <h2>Home</h2>
-        <ProfileDetails profile={profile}></ProfileDetails>
-        <ProfileEdit profile={profile} auth={this.props.auth}></ProfileEdit>
-        <Button onClick={this.logout.bind(this)}>Logout</Button>
-        <Button onClick={this.getState.bind(this)}>GetState</Button>
-        <ul>{ searchedAddressList }</ul>
-        <div ref= "hi">
-          <div> hi</div>
-          <div> bye</div>
-         </div>
+      <MyFirstGrid userMongoProfile = {this.state.userMongoProfile} />
+
       </div>
     )
   }
 }
 
 export default Home;
+
+// <h2>Home</h2>
+// <ProfileDetails profile={profile}></ProfileDetails>
+// <ProfileEdit profile={profile} auth={this.props.auth}></ProfileEdit>
+// <Button onClick={this.logout.bind(this)}>Logout</Button>
+// <Button onClick={this.getState.bind(this)}>GetState</Button>
+// <ul>{ searchedAddressList }</ul>
+// <div ref= "hi">
+//   <div> hi</div>
+//   <div> bye</div>
+// </div>
