@@ -9,6 +9,12 @@ var ReactGridLayout = require('react-grid-layout');
 
 var MyFirstGrid = React.createClass({
   mixins: [PureRenderMixin],
+  getInitialState() {
+    return ({
+      newCounter: 0,
+      collapsedWidgets: {}
+    });
+  },
   getDefaultProps() {
     return {
       cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
@@ -23,8 +29,7 @@ var MyFirstGrid = React.createClass({
       this.setState({
         items: this.props.userMongoProfile.map(function(i, key, list) {
         return {i: i._id, x: 0, y: 0, w: 12, h: 1, add: i === (list.length - 1).toString()};
-      }),
-        newCounter: 0
+        })
       });
     }
   },
@@ -39,15 +44,37 @@ var MyFirstGrid = React.createClass({
     console.log(el);
     var i = el.add ? '+' : el.i;
     var propBag = { '_grid': el };
-
     return (
       <div key={i} {...propBag}>
         {el.add ?
           <span className="add text" onClick={this.onAddItem} title="You can add an item by clicking here, too.">Add +</span>
-        : <span className="text">{i}</span>}
+        : <div className="text" onClick={this.onCellClick.bind(this, i)}>{i}</div>}
         <span className="remove" style={removeStyle} onClick={this.onRemoveItem.bind(this, i)}>x</span>
       </div>
     );
+  },
+///////////////////////////////////////////////////////
+  onCellClick(id) {
+    console.log(id);
+    console.log(this.state.collapsedWidgets);
+    console.log(this.state.collapsedWidgets[id]);
+    return () => {
+        const newState = {...this.state.collapsedWidgets};
+        const collapsed = typeof newState[id] === 'boolean' ? newState[id] : false;
+
+        newState[id] = !collapsed;
+        this.setState({
+            collapsedWidgets: newState,
+          });
+      }
+    // console.log(this.state.items);
+    // console.log(this.state.items.find(item=> item.i === id));
+    // this.state.items.find(item=> item.i === id).h = 2;
+    // console.log(this.state.items);
+    // var newState = this.state.items.find(item=> item.i === id).h = 2;
+    //
+    // this.setState(newState);
+
   },
 ///////////////////////////////////////////////////////
   onRemoveItem(i) {
@@ -82,18 +109,30 @@ var MyFirstGrid = React.createClass({
       newCounter: this.state.newCounter + 1
     });
   },
+  ///////////////////////////////////////////////////////
+  getModifiedLayouts() {
+      const { items, collapsedWidgets } = this.state;
+
+      const newItemLayouts = items.map(item => {
+          const newItemLayout = { ...item };
+          if (collapsedWidgets[newItemLayout.i]) {
+              newItemLayout.h = 5;
+          }
+          return newItemLayout;
+      });
+
+      return newItemLayouts;
+  },
 ///////////////////////////////////////////////////////
   render() {
-
+    var expandingLayout = this.getModifiedLayouts();
+    console.log(expandingLayout);
     if(this.props.userMongoProfile){
       var userTable =
       <div>
-        <button onClick={this.onAddItem}>Add Item</button>
-        <ResponsiveReactGridLayout className={styles.layout} onLayoutChange={this.onLayoutChange} onBreakpointChange={this.onBreakpointChange}
+        <ResponsiveReactGridLayout layout={expandingLayout} className={styles.layout} onLayoutChange={this.onLayoutChange} onBreakpointChange={this.onBreakpointChange}
         {...this.props}>
-
-        {_.map(this.state.items, this.createElement)}
-
+          {_.map(this.state.items, this.createElement)}
         </ResponsiveReactGridLayout>
       </div>
     } else {
