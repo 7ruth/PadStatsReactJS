@@ -7,6 +7,8 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 var PureRenderMixin = require('react/lib/ReactComponentWithPureRenderMixin');
 var ReactGridLayout = require('react-grid-layout');
 
+var clickedID = 0;
+
 var MyFirstGrid = React.createClass({
   mixins: [PureRenderMixin],
   getInitialState() {
@@ -56,24 +58,19 @@ var MyFirstGrid = React.createClass({
 ///////////////////////////////////////////////////////
   onCellClick(id) {
     console.log(id);
-    console.log(this.state.collapsedWidgets);
-    console.log(this.state.collapsedWidgets[id]);
-    return () => {
-        const newState = {...this.state.collapsedWidgets};
-        const collapsed = typeof newState[id] === 'boolean' ? newState[id] : false;
+    clickedID = id;
+    console.log(this.state.items);
+    console.log(this.state.items.find(item=> item.i === id));
+    this.state.items.find(item=> item.i === id).h = 2;
+    console.log(this.state.items);
+    var newState = this.state.items.find(item=> item.i === id).h = 2;
 
-        newState[id] = !collapsed;
-        this.setState({
-            collapsedWidgets: newState,
-          });
-      }
-    // console.log(this.state.items);
-    // console.log(this.state.items.find(item=> item.i === id));
-    // this.state.items.find(item=> item.i === id).h = 2;
-    // console.log(this.state.items);
-    // var newState = this.state.items.find(item=> item.i === id).h = 2;
-    //
     // this.setState(newState);
+
+    var expandingLayout = this.getModifiedLayouts();
+    this.setState({
+      items: expandingLayout
+    })
 
   },
 ///////////////////////////////////////////////////////
@@ -113,24 +110,23 @@ var MyFirstGrid = React.createClass({
   getModifiedLayouts() {
       const { items, collapsedWidgets } = this.state;
 
-      const newItemLayouts = items.map(item => {
-          const newItemLayout = { ...item };
-          if (collapsedWidgets[newItemLayout.i]) {
-              newItemLayout.h = 5;
+      const newLayouts = items.map(layout => {
+          const newLayout = { ...layout };
+          if (layout.i === clickedID) {
+              newLayout.h = 5;
           }
-          return newItemLayout;
+          return newLayout;
       });
 
-      return newItemLayouts;
+      return newLayouts;
   },
 ///////////////////////////////////////////////////////
   render() {
-    var expandingLayout = this.getModifiedLayouts();
-    console.log(expandingLayout);
+
     if(this.props.userMongoProfile){
       var userTable =
       <div>
-        <ResponsiveReactGridLayout layout={expandingLayout} className={styles.layout} onLayoutChange={this.onLayoutChange} onBreakpointChange={this.onBreakpointChange}
+        <ResponsiveReactGridLayout layout={this.state.items} className={styles.layout} onLayoutChange={this.onLayoutChange} onBreakpointChange={this.onBreakpointChange}
         {...this.props}>
           {_.map(this.state.items, this.createElement)}
         </ResponsiveReactGridLayout>
