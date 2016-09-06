@@ -7,3 +7,7 @@
   transition: height 200ms ease;
   z-index:100;
 }
+.grid {
+  position:relative;
+  top: 100px;
+}

@@ -53,3 +53,21 @@ body {
   cursor: -moz-grab;
   cursor: -webkit-grab;
 }
+.grid{
+  background-color: black;
+}
+.addressDetailElement{
+  background-color: gray;
+  overflowY: auto;
+  overflow: hidden;
+}
+.componentContent{
+  height: 500px;
+  background: lightgray;
+}
+.remove{
+  position: absolute;
+  right: 2px;
+  top: 0;
+  cursor: pointer;
+}

@@ -65,7 +65,7 @@ export class Home extends React.Component {
     return (
       <div className={styles.root}>
 
-      <MyFirstGrid userMongoProfile = {this.state.userMongoProfile} />
+      <MyFirstGrid className={styles.grid} userMongoProfile = {this.state.userMongoProfile} />
 
       </div>
     )
