@@ -56,6 +56,10 @@ body {
 .grid{
   background-color: black;
 }
+.tableHeader{
+  background-color: lightblue;
+  max-height:110px;
+}
 .addressDetailElement{
   background-color: gray;
   overflowY: auto;
@@ -70,4 +74,15 @@ body {
   right: 2px;
   top: 0;
   cursor: pointer;
+}
+.content {
+  background: #eeeeee;
+  float: left;
+  height: 100px;
+}
+.elementHeader{
+  display: flex;
+    justify-content:center;
+    align-content:center;
+    flex-direction:column;
 }

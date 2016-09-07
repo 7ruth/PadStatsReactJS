@@ -48,11 +48,6 @@ var MyFirstGrid = React.createClass({
             var layouts = tempLayout;
         }
 
-        // console.log(this.state.layout);
-        console.log(this.state.collapsedWidgets);
-        console.log(collapsedWidgets);
-        console.log(clickedID);
-
         const newLayouts = layouts.map(layout => {
             const newLayout = { ...layout };
             if (newLayout.i == clickedID) {
@@ -89,8 +84,8 @@ var MyFirstGrid = React.createClass({
                 {
                   i: i._id,
                   x: 0,
-                  y: index,
-                  w: 11.65,
+                  y: index+1,
+                  w: 12,
                   h: 1,
                 }
               )
@@ -105,7 +100,6 @@ var MyFirstGrid = React.createClass({
       var elementHTMLTemplate= [];
 
       if (this.state.addressDetailElementsData){
-
         //determine all of the categories that the user has seleted as part of thier data saves to identify the correct number of columns to have inside the detail element
         this.state.addressDetailElementsData.forEach(function(el){
           Object.keys(el.poi).forEach(function(item){
@@ -117,6 +111,7 @@ var MyFirstGrid = React.createClass({
 
         //Start creating element content based on # columns determined above
         console.log(elementHTMLTemplate);
+        console.log(this.state.addressDetailElementsData);
         // console.log(this.state.addressDetailElementsData);
         // columnCountArray.forEach(function(category){
         //   elementContentHTML.push(
@@ -125,30 +120,34 @@ var MyFirstGrid = React.createClass({
         // })
 
         return this.state.addressDetailElementsData.map((el, index) => {
-          var division = [];
+          var content = [];
+          var width = (100/(elementHTMLTemplate.length+1)).toString().concat('%');
+          console.log(width);
+          // get the searched address into content
+          content.push(
+            <div className={styles.content+ ' ' +styles.elementHeader} style={{ width: width }}>{el.formatted_address}</div>
+          )
           elementHTMLTemplate.forEach(function(category){
             console.log(el);
             //if category is missing from that specific element... just insert a blank div (it will be later grayed out to make it clear what addresses can be compared on apple to apple basis)
             if (el.poi[category]) {
-              division.push(
-                <div>
+              content.push(
+                <div className={styles.content} style={{ width: width }}>
                   <div>{el.poi[category][0]}</div>
                   <div>{el.poi[category][1]}</div>
                 </div>
               )
             } else {
-              division.push(
-                <div></div>
+              content.push(
+                <div className={styles.content} style={{ width: width }}> *Blank*</div>
               )
             }
           })
 
-
           return (
             <div key={el.i} className = {styles.addressDetailElement} onClick={this.toggleEl(el.i).bind(this)}>
-              <div> {el.formatted_address}  </div>
                 <div className={styles.componentContent}>
-                  {division}
+                  {content}
                 </div>
               <span className={styles.remove} onClick={this.onRemoveItem.bind(this, el.i)}>x</span>
             </div>
@@ -168,26 +167,31 @@ var MyFirstGrid = React.createClass({
         xhr.open("DELETE", url, true);
         //Set header, make sure has application/json, for JSON format, also must JSON.stringify the data before sending
         xhr.setRequestHeader("Content-type", "application/json");
-        console.log(data);
         xhr.send(data);
-
-        console.log('removing', i);
         this.setState({addressDetailElementsData: _.reject(this.state.addressDetailElementsData, {i: i})});
       },
 ///////////////////////////////////////////////////////
-
     render() {
-        const elements = this.generateDOM();
+        var elements = this.generateDOM();
+        // var propBag = { '_grid': {x: 0, y: 0, w: 1, h: 2, static: true} };
+
+        if(elements){
+          elements.push(<div className={styles.tableHeader} key="a" _grid={{x: 0, y: 0, w: 12, h: .75, static: true}}>a</div>);
+        };
 
         const modifiedLayouts = this.getModifiedLayouts();
 
-        return (<div style={{ marginTop: '5px' }}>
+        return (<div style={{ marginTop: '0px' }}>
                 {elements ?
                 <Grid className={styles.grid}
                   {...this.props}
                   layout={modifiedLayouts}
                   onLayoutChange={this.onLayoutChange}>
-                    {elements}
+
+
+
+                  {elements}
+
                 </Grid> : null}
             </div>);
     }
