@@ -5,18 +5,10 @@ import Auth0Lock from 'auth0-lock'
 export default class AuthService extends EventEmitter {
   constructor(clientId, domain) {
     super()
-    this.domain = domain
+    // this.domain = domain
+
     // Configure Auth0
-    this.lock = new Auth0Lock(clientId, domain, {
-      additionalSignUpFields: [{
-        name: "address",                              // required
-        placeholder: "enter your address",            // required
-        validator: function(value) {                  // optional
-          // only accept addresses with more than 10 chars
-          return value.length > 10;
-        }
-      }]
-    })
+    this.lock = new Auth0Lock(clientId, domain)
     // Add callback for lock `authenticated` event
     this.lock.on('authenticated', this._doAuthentication.bind(this))
     // Add callback for lock `authorization_error` event
@@ -45,9 +37,7 @@ export default class AuthService extends EventEmitter {
 
   login() {
     // Call the show method to display the widget.
-    this.lock.show({
-      socialBigButtons: false
-    });
+    this.lock.show();
   }
 
   loggedIn(){

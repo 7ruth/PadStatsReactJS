@@ -50,37 +50,18 @@ export class Home extends React.Component {
 
   render(){
     var layouts = MyFirstGrid;
-
-    console.log(this.props.auth.getProfile());
-    console.log(this.state.userMongoProfile);
     const { profile } = this.state
-
     if (this.state.userMongoProfile) {
     var searchedAddressList = this.state.userMongoProfile.map(function(obj){
-
         return <li>{obj.location.formatted_address} {obj.location.poi}</li>;
       })
     }
-
     return (
       <div className={styles.root}>
-
       <MyFirstGrid className={styles.grid} userMongoProfile = {this.state.userMongoProfile} />
-
       </div>
     )
   }
 }
 
 export default Home;
-
-// <h2>Home</h2>
-// <ProfileDetails profile={profile}></ProfileDetails>
-// <ProfileEdit profile={profile} auth={this.props.auth}></ProfileEdit>
-// <Button onClick={this.logout.bind(this)}>Logout</Button>
-// <Button onClick={this.getState.bind(this)}>GetState</Button>
-// <ul>{ searchedAddressList }</ul>
-// <div ref= "hi">
-//   <div> hi</div>
-//   <div> bye</div>
-// </div>

@@ -136,10 +136,32 @@ const SidePanel=React.createClass({
     // xhr.open("GET", "/retrieve", true);
     // xhr.send();
   },
+  //do a POST request - to save the user's commute//////////////////////////////////
+  saveCommutePOST: function(e) {
+    if (e.key === 'Enter') {
+
+
+
+    // var url = "/saveCommute";
+    // var data = {};
+    // var userID=JSON.parse(localStorage.profile).global_client_id;
+    // data = JSON.stringify({
+    //   userCommute: userCommute
+    // })
+    // var xhr = new XMLHttpRequest();
+    // xhr.open("POST", url, true);
+    // //Set header, make sure has application/json, for JSON format, also must JSON.stringify the data before sending
+    // xhr.setRequestHeader("Content-type", "application/json");
+    // xhr.send(data);
+
+      console.log(e.target.value);
+    }
+  },
   ///////////////////////////////////////////////////////
   render: function() {
     var poiRender=[];
     var totalTime=[];
+    var commuteInput=[];
     console.log(JSON.parse(localStorage.profile).global_client_id);
 
       ///////////////////////////////////////////////////////
@@ -177,7 +199,13 @@ const SidePanel=React.createClass({
               <button onClick={this.requestPOST}>Save Results!</button>
             </div>
           </div>
-      )}
+        )
+        commuteInput.push(
+            <div>
+              <input className={styles.commuteInput} onKeyPress={this.saveCommutePOST} placeholder='Tell us where you commute to!' />
+            </div>
+        )
+      }
 
     ///////////////////////////////////////////////////////
     if (this.props.poiObject) {
@@ -185,6 +213,7 @@ const SidePanel=React.createClass({
         <div className={styles.left}>
         {poiRender}
         {totalTime}
+        {commuteInput}
         </div>;
     } else {
       var sidePanel = "";

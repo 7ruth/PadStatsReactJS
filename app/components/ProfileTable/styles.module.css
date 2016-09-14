@@ -60,6 +60,33 @@ body {
   background-color: lightblue;
   max-height:110px;
 }
+.tableHeaderElements{
+  position:relative;
+  height:100%;
+  float: left;
+  display: flex;
+  justify-content:center;
+  align-content:center;
+  flex-direction:column;
+}
+.tableHeaderElementCategory{
+  position:absolute;
+  top:0px;
+  left:0px;
+  right:0px;
+  margin-top:20px;
+}
+.tableHeaderElementCounter{
+  position:absolute;
+  margin-left:15%;
+  width:70%;
+  bottom:0px;
+  margin-bottom:10px;
+}
+.tableHeaderElementCounterWidget{
+  width:100%;
+  font-size: 22px;
+}
 .addressDetailElement{
   background-color: gray;
   overflowY: auto;
@@ -76,13 +103,35 @@ body {
   cursor: pointer;
 }
 .content {
+  position: relative;
   background: #eeeeee;
   float: left;
-  height: 100px;
+  height: 150px;
+  display: flex;
+  justify-content:center;
+  align-content:center;
+  flex-direction:column;
 }
 .elementHeader{
   display: flex;
-    justify-content:center;
-    align-content:center;
-    flex-direction:column;
+  justify-content:center;
+  align-content:center;
+  flex-direction:column;
+}
+.categoryName{
+  position: absolute;
+  top:0;
+  left:0;
+  right:0;
+  margin-top:20px;
+}
+.categoryTime{
+  position: absolute;
+  bottom:0px;
+  left:0;
+  right:0;
+  margin-bottom: 10px;
+}
+.commuteInput{
+  bottom: 0;
 }

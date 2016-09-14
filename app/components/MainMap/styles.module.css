@@ -65,3 +65,8 @@
 .totalTime {
   margin:10px;
 }
+.commuteInput{
+  position: fixed;
+  width: 20%;
+  bottom: 20px;
+}
