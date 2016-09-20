@@ -27,3 +27,6 @@
 a {
   text-decoration: none;
 }
+.auth0-lock-center{
+  top:100px;
+}

@@ -17,7 +17,6 @@ html, body {
   display: flex;
   flex-direction: row;
   position: relative;
-  min-height: 50vh;
 
   .content {
     top: 100px;
@@ -25,6 +24,7 @@ html, body {
     order: 2;
     position: relative;
     min-height: 50vh;
+    width:100%;
   }
 }
 .topbar {

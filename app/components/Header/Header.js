@@ -214,6 +214,7 @@ const Header=React.createClass({
             <div className={styles.searchbox}>
               <form onSubmit={this.onSubmit}>
                 <input
+                    className={styles.searchboxInput}
                     ref='autocomplete'
                     type="text"
                     placeholder="Enter a location" />

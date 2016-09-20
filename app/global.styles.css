@@ -1,0 +1,8 @@
+.auth0-lock-center{
+  position: absolute !important;
+  top: 10% !important;
+  left: 50% !important;
+  margin-left: -50% !important;
+  width: 100% !important;
+  height: 100% !important;
+}

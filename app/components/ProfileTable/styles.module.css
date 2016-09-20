@@ -1,6 +1,5 @@
 body {
   background: white;
-  padding: 20px;
   overflow: scroll;
 }
 #content {
@@ -131,7 +130,4 @@ body {
   left:0;
   right:0;
   margin-bottom: 10px;
-}
-.commuteInput{
-  bottom: 0;
 }
