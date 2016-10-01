@@ -56,7 +56,7 @@ body {
   background-color: black;
 }
 .tableHeader{
-  background-color: lightblue;
+  background-color: #FFFFFF;
   max-height:110px;
 }
 .tableHeaderElements{
@@ -70,23 +70,29 @@ body {
 }
 .tableHeaderElementCategory{
   position:absolute;
-  top:0px;
-  left:0px;
-  right:0px;
-  margin-top:20px;
+  width: 80%;
+  margin-left:10%;
+  border-radius: 3px 3px 3px 3px;
+  font-size: 20px;
+  margin-top: 10%;
+  display: inline-block;
+  vertical-align: middle;
+  background: #FFFFFF;
+  /*box-shadow: 0 0 1px 1px #fff inset, 1px 1px 5px -1px #000;*/
 }
 .tableHeaderElementCounter{
   position:absolute;
-  margin-left:15%;
-  width:70%;
-  bottom:0px;
+  margin-left:25%;
+  width:50%;
+  top:2.5px;
   margin-bottom:10px;
 }
 .tableHeaderElementCounterWidget{
   width:100%;
-  font-size: 22px;
+  font-size: 12px;
 }
 .addressDetailElement{
+  outline:solid 1px rgb(204,204,204);
   background-color: gray;
   overflowY: auto;
   overflow: hidden;
@@ -97,13 +103,13 @@ body {
 }
 .remove{
   position: absolute;
-  right: 2px;
+  right: 8px;
   top: 0;
   cursor: pointer;
 }
 .content {
   position: relative;
-  background: #eeeeee;
+  background-color:#FFFFFF;
   float: left;
   height: 150px;
   display: flex;
@@ -119,15 +125,29 @@ body {
 }
 .categoryName{
   position: absolute;
-  top:0;
-  left:0;
-  right:0;
-  margin-top:20px;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .categoryTime{
   position: absolute;
-  bottom:0px;
+  background-color:#FFFFFF;
+  color:#f97d0b;
+  /*#e96f48*/
+  bottom:0;
   left:0;
   right:0;
-  margin-bottom: 10px;
+  padding-bottom: 10px;
+  height: 15%;
 }
+.formattedAddress{
+  margin-top:-20px;
+  vertical-align: text-top;
+  position:absolute;
+  padding:0px 0px 0px 10px;
+  font-size: 1em;
+}
+.totalCategoryTime{
+  color:#f97d0b;
+}
+/*#F18612 0range*/

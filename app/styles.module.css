@@ -23,7 +23,7 @@ html, body {
     flex: 3;
     order: 2;
     position: relative;
-    min-height: 50vh;
+    min-height: calc(50vh - 80px);
     width:100%;
   }
 }

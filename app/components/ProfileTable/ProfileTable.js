@@ -23,6 +23,14 @@ var placeTypesKey = {
 }
 var counterNumber;
 var categoryCounters={};
+var bgColors = { "Default": "#81b71a",
+      "Blue": "#00B1E1",
+      "Cyan": "#37BC9B",
+      "Green": "#8CC152",
+      "Red": "#E9573F",
+      "Yellow": "#F6BB42",
+      "White": "#FFFFFF"
+}
 
 var MyFirstGrid = React.createClass({
 ///////////////////////////////////////////////////////
@@ -139,9 +147,12 @@ var MyFirstGrid = React.createClass({
           // next line has a +2 to account for formatted address and total time columns which will be added to whatever categories are also part of the analysis
           width = (100/(Object.keys(this.state.categoryCounters).length+2)).toString().concat('%');
 
-          // get the searched address into content
+          // START OF ROW: INSERT SEARCHED ADDRESS
           content.push(
-            <div className={styles.content+ ' ' +styles.elementHeader} style={{ width: width }}>{el.formatted_address}</div>
+            <div className={styles.content+ ' ' +styles.elementHeader} style={{ width: width }}>
+              <div className={styles.formattedAddress}>{el.formatted_address}</div>
+              <div className={styles.categoryTime}></div>
+            </div>
           )
           Object.keys(this.state.categoryCounters).forEach(function(category){
             //if category is missing from that specific element... just insert a blank div (it will be later grayed out to make it clear what addresses can be compared on apple to apple basis)
@@ -159,22 +170,26 @@ var MyFirstGrid = React.createClass({
                   <div className={styles.categoryTime}>{newTime}</div>
                 </div>
               )
-            } else {
+              } else {
               content.push(
-                <div className={styles.content} style={{ width: width }}> *Blank*</div>
+                <div className={styles.content} style={{ width: width}}>
+                  <div className={styles.categoryTime} ></div>
+                </div>
               )
             }
           }, this)
           //also add total time as the last div in the content
-console.log(totalSeconds);
           content.push(
             <div className={styles.content} style={{ width: width }}>
-              <div>{this.computeTime(totalSeconds)}</div>
+              <div className={styles.totalCategoryTime}>{this.computeTime(totalSeconds)}</div>
+              <div className={styles.categoryTime} ></div>
             </div>
           )
 
+          // onClick={this.toggleEl(el.i).bind(this)} This was part of key={el.i} on click functionality
+
           return (
-            <div key={el.i} className = {styles.addressDetailElement} onClick={this.toggleEl(el.i).bind(this)}>
+            <div key={el.i} className = {styles.addressDetailElement}>
                 <div className={styles.componentContent} >
                   {content}
                 </div>
@@ -212,6 +227,28 @@ console.log(totalSeconds);
               <div className={styles.tableHeaderElementCategory}> {placeTypesKey[el]} </div>
               <div className={styles.tableHeaderElementCounter} onClick={()=>{this.handleCounterChange(el)}}>
                 <NumericInput
+                  style={{
+                    wrap: {
+                      borderRadius: '6px 3px 3px 6px',
+                      fontSize: 10,
+                      border: '1px solid #FFFFFF'
+                    },
+                    input: {
+                      color: '#f97d0b',
+                      border: '1px solid #FFFFFF',
+                    },
+                    btnUp: {
+                      border: 'none',
+                      background:'rgba(0, 0, 0, 0.0)'
+                    },
+                    btnDown: {
+                      border: 'none',
+                      background:'rgba(0, 0, 0, 0.0)'
+                    },
+                    arrowUp: {
+                      border: '1px solid #FFFFFF'
+                    }
+                  }}
                   className={styles.tableHeaderElementCounterWidget}
                   min={0}
                   max={100}

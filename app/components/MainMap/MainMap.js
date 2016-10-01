@@ -64,7 +64,7 @@ const MainMap = React.createClass({
           <Map {...props}
               containerStyle={{
                 position: 'relative',
-                height: 'calc(100vh - 80px)',
+                height: 'calc(100vh - 115px)',
                 width: '100%'
               }}
               center={this.props.position}
