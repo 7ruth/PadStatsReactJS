@@ -1,1 +1,1 @@
-web: node PadStats.js
+web: index.html
