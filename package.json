@@ -25,6 +25,31 @@
     "postinstall": "NODE_ENV=production webpack"
   },
   "devDependencies": {
+
+  },
+  "peerDependencies": {
+    "react": "~0.14.8 || ^15.0.0",
+    "react-dom": "~0.14.8 || ^15.0.0"
+  },
+  "dependencies": {
+    "auth0-lock": "^10.0.0-rc.1",
+    "body-parser": "^1.15.2",
+    "bootstrap": "^3.3.5",
+    "classnames": "^2.2.5",
+    "express": "^4.14.0",
+    "flux": "^2.1.1",
+    "invariant": "^2.2.1",
+    "jquery": "^3.1.0",
+    "jquery-ui": "^1.12.0",
+    "jwt-decode": "^2.0.1",
+    "lodash": "^4.14.0",
+    "mongodb": "^2.1.18",
+    "react": "^15.0.2",
+    "react-bootstrap": "^0.29.4",
+    "react-dom": "^15.0.2",
+    "react-numeric-input": "^2.0.4",
+    "react-router": "^2.4.0",
+    "webpack": "^1.13.0",
     "autoprefixer": "^6.3.6",
     "babel-cli": "^6.7.7",
     "babel-core": "^6.7.4",
@@ -65,29 +90,5 @@
     "sinon": "^1.17.3",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7"
-  },
-  "peerDependencies": {
-    "react": "~0.14.8 || ^15.0.0",
-    "react-dom": "~0.14.8 || ^15.0.0"
-  },
-  "dependencies": {
-    "auth0-lock": "^10.0.0-rc.1",
-    "body-parser": "^1.15.2",
-    "bootstrap": "^3.3.5",
-    "classnames": "^2.2.5",
-    "express": "^4.14.0",
-    "flux": "^2.1.1",
-    "invariant": "^2.2.1",
-    "jquery": "^3.1.0",
-    "jquery-ui": "^1.12.0",
-    "jwt-decode": "^2.0.1",
-    "lodash": "^4.14.0",
-    "mongodb": "^2.1.18",
-    "react": "^15.0.2",
-    "react-bootstrap": "^0.29.4",
-    "react-dom": "^15.0.2",
-    "react-numeric-input": "^2.0.4",
-    "react-router": "^2.4.0",
-    "webpack": "^1.13.0"
   }
 }
