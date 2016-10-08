@@ -23,7 +23,7 @@ MongoClient.connect('mongodb://7ruth:Warandpeace9@ds023478.mlab.com:23478/padsta
 app.post('/save', (req, res) => {
   db.collection('addresses').save(req.body, (err, result) => {
    if (err) return console.log(err)
-   console.log('saved to database')
+   console.log('saved to database!!!!!')
   //  res.redirect('/')
   })
   console.log(req.body)
