@@ -34,7 +34,7 @@ app.post('/save', (req, res) => {
   console.log(req.body)
   console.log('*SAVE - beep boooop booooooop*')
 })
-console.log(process.env);
+
 app.get('/retrieve/:version', (req, res) => {
   db.collection('addresses').find({ userID: req.params.version } ).toArray(function(err, results) {
   res.send(results)
