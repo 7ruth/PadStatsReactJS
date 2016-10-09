@@ -6,7 +6,7 @@ import styles from './global.styles.css';
 
 import Container from './Container'
 
-const auth = new AuthService(process.env.AUTH0_CLIENT_ID, process.env.AUTH0_DOMAIN);
+const auth = new AuthService(process.env.AUTH0_CLIENT_ID.toString(), process.env.AUTH0_DOMAIN);
 
 const routeMap = {
   'mainmap': {
