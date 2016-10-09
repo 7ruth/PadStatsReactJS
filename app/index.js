@@ -6,10 +6,8 @@ import styles from './global.styles.css';
 
 import Container from './Container'
 
-var config = require('../config.js');
-console.log(config);
 console.log(process.env);
-const auth = new AuthService(config.AUTH0_CLIENT_ID, config.AUTH0_DOMAIN);
+const auth = new AuthService(AUTH0_CLIENT_ID, process.env.AUTH0_DOMAIN);
 
 const routeMap = {
   'mainmap': {
