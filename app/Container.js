@@ -99,5 +99,5 @@ export const Container = React.createClass({
 })
 
 export default GoogleApiWrapper({
-  apiKey: GAPI_KEY
+  apiKey: process.env.GAPI_KEY
 })(Container)
