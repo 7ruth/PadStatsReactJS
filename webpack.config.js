@@ -42,6 +42,7 @@ var config = getConfig({
 const dotenv      = require('dotenv');
 const envVariables = dotenv.config();
 console.log(envVariables);
+console.log("hi");
 // Converts keys to be surrounded with __
 const defines =
   Object.keys(envVariables)
