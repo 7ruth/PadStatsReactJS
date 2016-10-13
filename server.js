@@ -26,7 +26,6 @@ MongoClient.connect('mongodb://7ruth:Warandpeace9@ds023478.mlab.com:23478/padsta
   // })
 })
 console.log("hi2")
-console.log(envVariables);
 
 app.post('/save', (req, res) => {
   db.collection('addresses').save(req.body, (err, result) => {

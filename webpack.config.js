@@ -42,7 +42,7 @@ var config = getConfig({
 const dotenv      = require('dotenv');
 const envVariables = dotenv.config();
 console.log(envVariables);
-console.log("hi");
+console.log("hi1");
 // Converts keys to be surrounded with __
 const defines =
   Object.keys(envVariables)
@@ -52,7 +52,8 @@ const defines =
     return memo;
   }, {
     __NODE_ENV__: JSON.stringify(env.NODE_ENV),
-    __IS_DEV__: isDev
+    __IS_DEV__: isDev,
+    __GMAP__: JSON.stringify(env.GAPI_KEY),
   })
 
 
