@@ -10,6 +10,8 @@ import {Button} from 'react-bootstrap'
 import styles from './styles.module.css'
 ///////////////////////////////////////////////////////
 let GoogleApiWrapper;
+console.log("?????????????????");
+console.log(__IS_DEV__);
 if (__IS_DEV__) {
   GoogleApiWrapper = require('../src/index').GoogleApiWrapper
 } else {
