@@ -11,7 +11,9 @@ import styles from './styles.module.css'
 ///////////////////////////////////////////////////////
 let GoogleApiWrapper;
 console.log("?????????????????");
+console.log(__GMAP__);
 console.log(__IS_DEV__);
+
 if (__IS_DEV__) {
   GoogleApiWrapper = require('../src/index').GoogleApiWrapper
 } else {
