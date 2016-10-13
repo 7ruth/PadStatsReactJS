@@ -58,7 +58,6 @@ const defines =
     __AUTH0_DOMAIN__:JSON.stringify(env.AUTH0_DOMAIN)
   })
 
-
 config.externals = {
   'window.google': true
 }
