@@ -53,7 +53,9 @@ const defines =
   }, {
     __NODE_ENV__: JSON.stringify(env.NODE_ENV),
     __IS_DEV__: isDev,
-    __GMAP__: JSON.stringify(env.GAPI_KEY),
+    __GAPI_KEY__: JSON.stringify(env.GAPI_KEY),
+    __AUTH0_CLIENT_ID__: JSON.stringify(env.AUTH0_CLIENT_ID),
+    __AUTH0_DOMAIN__:JSON.stringify(env.AUTH0_DOMAIN)
   })
 
 

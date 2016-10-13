@@ -11,7 +11,7 @@ import styles from './styles.module.css'
 ///////////////////////////////////////////////////////
 let GoogleApiWrapper;
 console.log("?????????????????");
-console.log(__GMAP__);
+console.log(__GAPI_KEY__);
 console.log(__IS_DEV__);
 
 if (__IS_DEV__) {
@@ -103,5 +103,5 @@ export const Container = React.createClass({
 })
 
 export default GoogleApiWrapper({
-  apiKey: process.env.GAPI_KEY
+  apiKey: (process.env.GAPI_KEY || __GAPI_KEY__)
 })(Container)
