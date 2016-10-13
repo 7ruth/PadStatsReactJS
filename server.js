@@ -25,7 +25,9 @@ MongoClient.connect('mongodb://7ruth:Warandpeace9@ds023478.mlab.com:23478/padsta
   // // send HTML file populated with quotes here
   // })
 })
-console.log("hi")
+console.log("hi2")
+console.log(envVariables);
+
 app.post('/save', (req, res) => {
   db.collection('addresses').save(req.body, (err, result) => {
    if (err) return console.log(err)
