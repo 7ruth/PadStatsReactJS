@@ -2,11 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import MainMap from '../../components/MainMap/MainMap'
 import styles from './styles.module.css'
-import {Link} from 'react-router'
 import {searchNearby} from '../../../src/lib/placeshelper.js'
 import {lookupDirections} from '../../../src/lib/directionshelper.js'
-import CheckboxGroup from 'react-checkbox-group';
-///////////////////////////////////////////////////////
+import CheckboxGroup from 'react-checkbox-group'
+//
 var placesTypes = [
   'convenience_store',
   'gym',
@@ -14,17 +13,17 @@ var placesTypes = [
   'school',
   'library',
   'museum'
-];
-///////////////////////////////////////////////////////
+]
+//
 var placeTypesKey = {
-  'convenience_store':'Convenience Store',
-  'gym':'Gym',
-  'grocery_or_supermarket':'Grocery Store',
-  'school':'School',
-  'library':'Library',
-  'museum':'Museum'
+  'convenience_store': 'Convenience Store',
+  'gym': 'Gym',
+  'grocery_or_supermarket': 'Grocery Store',
+  'school': 'School',
+  'library': 'Library',
+  'museum': 'Museum'
 }
-///////////////////////////////////////////////////////
+//
 var userSelection = [placesTypes[0],placesTypes[1],placesTypes[2]];
 var userSelectionWords = [placeTypesKey[placesTypes[0]],placeTypesKey[placesTypes[1]],placeTypesKey[placesTypes[2]]];
 var counters = {};
@@ -209,7 +208,6 @@ const Header=React.createClass({
     return (
       <div>
         <div className={styles.topbar}>
-
           <section>
             <div className={styles.searchbox}>
               <form onSubmit={this.onSubmit}>
@@ -224,8 +222,7 @@ const Header=React.createClass({
               <CheckboxGroup
                 name="mapOptions"
                 value={this.state.userSelection}
-                onChange={this.mapOptionsChanged}
-                >
+                onChange={this.mapOptionsChanged}>
                  {
                    Checkbox => (
                      <form className={styles.checkbox}>
