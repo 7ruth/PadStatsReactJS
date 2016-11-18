@@ -62,11 +62,11 @@
                                         // stored.handlers.forEach(h => h.call(null, stored))
                                         // stored.handlers = []
                                     } else if (state === 'error') {
-                                            stored.errored = true;
-                                            // stored.handlers.forEach(h => h.call(null, stored))
-                                            // stored.handlers = [];
-                                            reject(evt);
-                                        }
+                                        stored.errored = true;
+                                        // stored.handlers.forEach(h => h.call(null, stored))
+                                        // stored.handlers = [];
+                                        reject(evt);
+                                    }
                                     stored.loaded = true;
 
                                     cleanup();

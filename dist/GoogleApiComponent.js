@@ -101,7 +101,7 @@
                 function Wrapper(props, context) {
                     _classCallCheck(this, Wrapper);
 
-                    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Wrapper).call(this, props, context));
+                    var _this = _possibleConstructorReturn(this, (Wrapper.__proto__ || Object.getPrototypeOf(Wrapper)).call(this, props, context));
 
                     _this.scriptCache = createCache(options);
                     _this.scriptCache.google.onLoad(_this.onLoad.bind(_this));

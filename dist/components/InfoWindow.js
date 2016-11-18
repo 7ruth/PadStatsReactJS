@@ -84,7 +84,7 @@
     function InfoWindow() {
       _classCallCheck(this, InfoWindow);
 
-      return _possibleConstructorReturn(this, Object.getPrototypeOf(InfoWindow).apply(this, arguments));
+      return _possibleConstructorReturn(this, (InfoWindow.__proto__ || Object.getPrototypeOf(InfoWindow)).apply(this, arguments));
     }
 
     _createClass(InfoWindow, [{
@@ -95,9 +95,9 @@
     }, {
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        var _props = this.props;
-        var google = _props.google;
-        var map = _props.map;
+        var _props = this.props,
+            google = _props.google,
+            map = _props.map;
 
 
         if (!google || !map) {
@@ -119,10 +119,10 @@
     }, {
       key: 'renderInfoWindow',
       value: function renderInfoWindow() {
-        var _props2 = this.props;
-        var map = _props2.map;
-        var google = _props2.google;
-        var mapCenter = _props2.mapCenter;
+        var _props2 = this.props,
+            map = _props2.map,
+            google = _props2.google,
+            mapCenter = _props2.mapCenter;
 
 
         if (!google || !google.maps) {

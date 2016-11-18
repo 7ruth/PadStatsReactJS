@@ -74,7 +74,6 @@
   "dependencies": {
     "auth0-lock": "^10.0.0-rc.1",
     "body-parser": "^1.15.2",
-    "bootstrap": "^3.3.5",
     "classnames": "^2.2.5",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
@@ -86,6 +85,7 @@
     "lodash": "^4.14.0",
     "mongodb": "^2.1.18",
     "react": "^15.0.2",
+    "react-addons-css-transition-group": "^15.4.0",
     "react-bootstrap": "^0.29.4",
     "react-checkbox-group": "^3.0.1",
     "react-dom": "^15.0.2",

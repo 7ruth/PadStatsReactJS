@@ -95,7 +95,7 @@
     function Marker() {
       _classCallCheck(this, Marker);
 
-      return _possibleConstructorReturn(this, Object.getPrototypeOf(Marker).apply(this, arguments));
+      return _possibleConstructorReturn(this, (Marker.__proto__ || Object.getPrototypeOf(Marker)).apply(this, arguments));
     }
 
     _createClass(Marker, [{
@@ -126,11 +126,11 @@
         if (this.marker) {
           this.marker.setMap(null);
         }
-        var _props = this.props;
-        var map = _props.map;
-        var google = _props.google;
-        var position = _props.position;
-        var mapCenter = _props.mapCenter;
+        var _props = this.props,
+            map = _props.map,
+            google = _props.google,
+            position = _props.position,
+            mapCenter = _props.mapCenter;
 
         if (!google) {
           return null;

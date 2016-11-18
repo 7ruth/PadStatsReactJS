@@ -207,7 +207,7 @@ const Header=React.createClass({
     const {position} = this.state;
     return (
       <div>
-        <div className={styles.topbar}>
+       <div className={styles.topbar}>
           <section>
             <div className={styles.searchbox}>
               <form onSubmit={this.onSubmit}>
@@ -264,7 +264,7 @@ const Header=React.createClass({
             userSelection= {this.state.userSelection}
             userSelectionWords = {this.state.userSelectionWords}
             onClick = {this.onClick} />
-        </div>
+        </div>      
       </div>
     )
   }

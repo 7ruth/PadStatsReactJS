@@ -126,7 +126,7 @@
     function Map(props) {
       _classCallCheck(this, Map);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Map).call(this, props));
+      var _this = _possibleConstructorReturn(this, (Map.__proto__ || Object.getPrototypeOf(Map)).call(this, props));
 
       (0, _invariant2.default)(props.hasOwnProperty('google'), 'You must include a `google` prop.');
 
@@ -340,26 +340,26 @@
           }
           //if +/- arrows are activated
         } else {
-            //clear previous renderer
-            directionsRendererArray[this.state.currentCategory].setMap(null);
-            //pass renderer to map
-            directionsRendererArray[this.state.currentCategory].setMap(map);
-            //pass options with results, start and end to the renderer on the map
-            directionsRendererArray[this.state.currentCategory].setDirections(this.state.currentDirections);
-            //set marker and info window
-            routedPoi = this.state.currentPoiObject[this.state.currentCategory][this.state.currentCounters[this.state.currentCategory]];
-            this.createMarker(routedPoi, this.state.currentCategory);
-            //calc distance and time to the POI from the center address
-            var origin_lat = this.state.currentLocation.lat();
-            var origin_lng = this.state.currentLocation.lng();
-            var latitude = routedPoi.geometry.location.lat();
-            var longitude = routedPoi.geometry.location.lng();
-            distances[this.state.currentCategory] = this.calcDistance(origin_lat, origin_lng, latitude, longitude);
-            //calc travel time to the POI
-            distances[this.state.currentCategory + "TravelTime"] = this.computetime(directionsRendererArray[this.state.currentCategory].directions);
-            //export distances object to MainMap component for rendering on the SidePanel component
-            this.props.exportObject(distances);
-          }
+          //clear previous renderer
+          directionsRendererArray[this.state.currentCategory].setMap(null);
+          //pass renderer to map
+          directionsRendererArray[this.state.currentCategory].setMap(map);
+          //pass options with results, start and end to the renderer on the map
+          directionsRendererArray[this.state.currentCategory].setDirections(this.state.currentDirections);
+          //set marker and info window
+          routedPoi = this.state.currentPoiObject[this.state.currentCategory][this.state.currentCounters[this.state.currentCategory]];
+          this.createMarker(routedPoi, this.state.currentCategory);
+          //calc distance and time to the POI from the center address
+          var origin_lat = this.state.currentLocation.lat();
+          var origin_lng = this.state.currentLocation.lng();
+          var latitude = routedPoi.geometry.location.lat();
+          var longitude = routedPoi.geometry.location.lng();
+          distances[this.state.currentCategory] = this.calcDistance(origin_lat, origin_lng, latitude, longitude);
+          //calc travel time to the POI
+          distances[this.state.currentCategory + "TravelTime"] = this.computetime(directionsRendererArray[this.state.currentCategory].directions);
+          //export distances object to MainMap component for rendering on the SidePanel component
+          this.props.exportObject(distances);
+        }
         //Coloring function for routes
         function rainbow(numOfSteps, step) {
           // This function generates vibrant, "evenly spaced" colours (i.e. no clustering). This is ideal for creating easily distinguishable vibrant markers in Google Maps and other apps.
@@ -367,7 +367,7 @@
           // HSV to RBG adapted from: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
           var r, g, b;
           var h = step / numOfSteps;
-          var i = ~ ~(h * 10);
+          var i = ~~(h * 10);
           var f = h * 10 - i;
           var q = 1 - f;
           switch (i % 10) {
@@ -384,7 +384,7 @@
             case 5:
               r = 1, g = 0, b = q;break;
           }
-          var c = "#" + ("00" + (~ ~(r * 255)).toString(16)).slice(-2) + ("00" + (~ ~(g * 255)).toString(16)).slice(-2) + ("00" + (~ ~(b * 255)).toString(16)).slice(-2);
+          var c = "#" + ("00" + (~~(r * 255)).toString(16)).slice(-2) + ("00" + (~~(g * 255)).toString(16)).slice(-2) + ("00" + (~~(b * 255)).toString(16)).slice(-2);
           return c;
         }
         pastCounters = this.state.currentCounters;
